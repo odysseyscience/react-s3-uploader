@@ -1,0 +1,26 @@
+{
+  "name": "react-s3-uploader",
+  "version": "0.1.0",
+  "description": "React component that renders an <input type=\"file\"/> and automatically uploads to an S3 bucket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:odysseyscience/react-s3-uploader.git"
+  },
+  "keywords": [
+    "react",
+    "upload",
+    "component",
+    "s3",
+    "bucket"
+  ],
+  "author": "Sean Adkinson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/odysseyscience/react-s3-uploader/issues"
+  },
+  "homepage": "https://github.com/odysseyscience/react-s3-uploader"
+}

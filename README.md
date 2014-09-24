@@ -3,13 +3,19 @@ react-s3-uploader
 
 Provides a `React` component that automatically uploads to an S3 Bucket.
 
+Install
+-----------
+```javascript
+$ npm install react-s3-uploader
+```
+
 From Browser
 ------------
 
 ```javascript
-var ReactS3Uploader = require('react-s3-uploader');
+    var ReactS3Uploader = require('react-s3-uploader');
 
-...
+    ...
 
     <ReactS3Uploader
         signingUrl="/s3/sign"
@@ -20,7 +26,8 @@ var ReactS3Uploader = require('react-s3-uploader');
 
 ```
 
-This expects a request to `/s3/sign` to return JSON with a `signedUrl` property.
+This expects a request to `/s3/sign` to return JSON with a `signedUrl` property that can be used
+to PUT the file in S3.
 
 Server-Side
 -----------
@@ -32,3 +39,7 @@ You can use the Express router that is bundled with this module to answer calls 
         bucket: "MyS3Bucket"
     }));
 ```
+
+This also provides another endpoint: `GET /s3/img/(.*)`.  This will create a temporary URL
+that provides access to the uploaded file (which are uploaded privately at the moment).  The
+request is then redirected to the URL, so that the image is served to the client.

@@ -22,5 +22,14 @@
   "bugs": {
     "url": "https://github.com/odysseyscience/react-s3-uploader/issues"
   },
-  "homepage": "https://github.com/odysseyscience/react-s3-uploader"
+  "homepage": "https://github.com/odysseyscience/react-s3-uploader",
+  "dependencies": {
+    "aws-sdk": "^2.0.17",
+    "mime": "^1.2.11",
+    "node-uuid": "^1.4.1"
+  },
+  "peerDependencies": {
+    "express": "^4.9.4",
+    "react": "^0.11.2"
+  }
 }

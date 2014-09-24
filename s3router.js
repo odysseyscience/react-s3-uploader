@@ -2,18 +2,22 @@
 var mime = require('mime'),
     uuid = require('node-uuid'),
     aws = require('aws-sdk'),
-    express = require('express'),
-    AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY,
-    AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-
-if (!AWS_ACCESS_KEY || !AWS_SECRET_KEY) {
-    throw new Error("AWS_ACCESS_KEY and AWS_SECRET_KEY must be set");
-}
-
-aws.config.update({accessKeyId: AWS_ACCESS_KEY , secretAccessKey: AWS_SECRET_KEY });
+    express = require('express');
 
 
-function S3Router(bucket, getFileKeyDir) {
+function S3Router(options) {
+
+    var AWS_ACCESS_KEY = options.accessKey || process.env.AWS_ACCESS_KEY,
+        AWS_SECRET_KEY = options.secretKey || process.env.AWS_SECRET_KEY,
+        S3_BUCKET = options.bucket,
+        getFileKeyDir = options.getFileKeyDir || function() { return "."; };
+
+
+    if (!AWS_ACCESS_KEY || !AWS_SECRET_KEY || !S3_BUCKET) {
+        throw new Error("AWS_ACCESS_KEY, AWS_SECRET_KEY, and S3_BUCKET must be available.");
+    }
+
+    aws.config.update({accessKeyId: AWS_ACCESS_KEY , secretAccessKey: AWS_SECRET_KEY });
 
     var router = express.Router();
 
@@ -23,7 +27,7 @@ function S3Router(bucket, getFileKeyDir) {
      */
     router.get(/\/img\/(.*)/, function(req, res) {
         var params = {
-            Bucket: bucket,
+            Bucket: S3_BUCKET,
             Key: getFileKeyDir(req) + '/' + req.params[0]
         };
         var s3 = new aws.S3();
@@ -44,7 +48,7 @@ function S3Router(bucket, getFileKeyDir) {
 
         var s3 = new aws.S3();
         var params = {
-            Bucket: bucket,
+            Bucket: S3_BUCKET,
             Key: fileKey,
             Expires: 60,
             ContentType: mimeType,

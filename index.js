@@ -1,2 +1,2 @@
 
-module.exports = require('./ReactS3Uploader.jsx');
+module.exports = require('./ReactS3Uploader');

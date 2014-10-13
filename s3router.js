@@ -7,17 +7,17 @@ var mime = require('mime'),
 
 function S3Router(options) {
 
-    var AWS_ACCESS_KEY = options.accessKey || process.env.AWS_ACCESS_KEY,
+    var AWS_ACCESS_KEY_ID = options.accessKey || process.env.AWS_ACCESS_KEY_ID,
         AWS_SECRET_KEY = options.secretKey || process.env.AWS_SECRET_KEY,
         S3_BUCKET = options.bucket,
         getFileKeyDir = options.getFileKeyDir || function() { return "."; };
 
 
-    if (!AWS_ACCESS_KEY || !AWS_SECRET_KEY || !S3_BUCKET) {
-        throw new Error("AWS_ACCESS_KEY, AWS_SECRET_KEY, and S3_BUCKET must be available.");
+    if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_KEY || !S3_BUCKET) {
+        throw new Error("AWS_ACCESS_KEY_ID, AWS_SECRET_KEY, and S3_BUCKET must be available.");
     }
 
-    aws.config.update({accessKeyId: AWS_ACCESS_KEY , secretAccessKey: AWS_SECRET_KEY });
+    aws.config.update({accessKeyId: AWS_ACCESS_KEY_ID , secretAccessKey: AWS_SECRET_KEY });
 
     var router = express.Router();
 

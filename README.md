@@ -47,4 +47,6 @@ This also provides another endpoint: `GET /s3/img/(.*)`.  This will create a tem
 that provides access to the uploaded file (which are uploaded privately at the moment).  The
 request is then redirected to the URL, so that the image is served to the client.
 
-You must provide environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_KEY` to use the server route.
+#### Access/Secret Keys
+
+The `aws-sdk` must be configured with your account's Access Key and Secret Access Key.  [There are a number of ways to provide these](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html), but setting up environment variables is the quickest.  You just have to configure environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, and AWS automatically picks them up.

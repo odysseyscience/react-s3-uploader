@@ -18,7 +18,7 @@ function S3Router(options) {
 
     /**
      * Redirects image requests with a temporary signed URL, giving access
-     * to GET an image from the customer's folder.
+     * to GET an image.
      */
     router.get(/\/img\/(.*)/, function(req, res) {
         var params = {
@@ -33,8 +33,7 @@ function S3Router(options) {
 
     /**
      * Returns an object with `signedUrl` and `publicUrl` properties that
-     * give temporary access to PUT an object in a customer's folder of
-     * our S3 bucket.
+     * give temporary access to PUT an object in an S3 bucket.
      */
     router.get('/sign', function(req, res) {
         var filename = uuid.v4() + "_" + req.query.objectName;

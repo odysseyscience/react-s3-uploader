@@ -1,6 +1,8 @@
+"use strict";
 
 var React = require('react'),
-    S3Upload = require('./s3upload.js');
+    S3Upload = require('./s3upload.js'),
+    objectAssign = require('object-assign');
 
 var ReactS3Uploader = React.createClass({
 
@@ -36,9 +38,7 @@ var ReactS3Uploader = React.createClass({
     },
 
     render: function() {
-        return this.transferPropsTo(
-            React.DOM.input({type: 'file', onChange: this.uploadFile})
-        );
+        return React.DOM.input(objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile});
     }
 
 });

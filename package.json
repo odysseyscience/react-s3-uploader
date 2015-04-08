@@ -1,6 +1,6 @@
 {
   "name": "react-s3-uploader",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "React component that renders a file input and automatically uploads to an S3 bucket",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,8 @@
   "dependencies": {
     "aws-sdk": "2.x",
     "mime": "1.x",
-    "node-uuid": "1.x"
+    "node-uuid": "1.x",
+    "object-assign": "^2.0.0"
   },
   "peerDependencies": {
     "express": "4.x",

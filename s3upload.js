@@ -5,6 +5,7 @@
 
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.fileElement = null;
+S3Upload.prototype.rawFiles = [];
 
 S3Upload.prototype.onFinishS3Put = function(signResult) {
     return console.log('base.onFinishS3Put()', signResult.publicUrl);
@@ -27,12 +28,12 @@ function S3Upload(options) {
             this[option] = options[option];
         }
     }
-    this.handleFileSelect(this.fileElement);
+    this.handleFileSelect(this.fileElement, this.rawFiles);
 }
 
-S3Upload.prototype.handleFileSelect = function(fileElement) {
+S3Upload.prototype.handleFileSelect = function(fileElement, rawFiles) {
     this.onProgress(0, 'Upload started.');
-    var files = fileElement.files;
+    var files = fileElement ? fileElement.files : rawFiles;
     var result = [];
     for (var i=0; i < files.length; i++) {
         var f = files[i];

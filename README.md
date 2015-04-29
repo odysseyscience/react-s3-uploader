@@ -51,7 +51,9 @@ request is then redirected to the URL, so that the image is served to the client
 
 The `aws-sdk` must be configured with your account's Access Key and Secret Access Key.  [There are a number of ways to provide these](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html), but setting up environment variables is the quickest.  You just have to configure environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, and AWS automatically picks them up.
 
-### Boto for Python, in a Django project
+### Other Types of Servers
+
+##### Boto for Python, in a Django project
     
     import boto
     import mimetypes
@@ -72,3 +74,7 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
             headers = {'Content-Type': content_type, 'x-amz-acl':'public-read'})
 
         return HttpResponse(json.dumps({'signedUrl': signed_url}))
+        
+##### Other Servers
+
+If you do some work on another server, and would love to contribute documentation, please send us a PR!

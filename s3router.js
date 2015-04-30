@@ -5,10 +5,17 @@ var mime = require('mime'),
     express = require('express');
 
 
+function checkTrailingSlash(path) {
+    if (path && path[path.length-1] != '/') {
+        path += '/';
+    }
+    return path;
+}
+
 function S3Router(options) {
 
     var S3_BUCKET = options.bucket,
-        getFileKeyDir = options.getFileKeyDir || function() { return "."; };
+        getFileKeyDir = options.getFileKeyDir || function() { return ""; };
 
     if (!S3_BUCKET) {
         throw new Error("S3_BUCKET is required.");
@@ -23,7 +30,7 @@ function S3Router(options) {
     router.get(/\/img\/(.*)/, function(req, res) {
         var params = {
             Bucket: S3_BUCKET,
-            Key: getFileKeyDir(req) + '/' + req.params[0]
+            Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
         };
         var s3 = new aws.S3();
         s3.getSignedUrl('getObject', params, function(err, url) {

@@ -26,6 +26,7 @@
   "dependencies": {
     "aws-sdk": "2.x",
     "mime": "1.x",
+    "moment": "^2.10.2",
     "node-uuid": "1.x",
     "object-assign": "^2.0.0"
   },

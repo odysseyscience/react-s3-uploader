@@ -2,13 +2,14 @@
 var mime = require('mime'),
     uuid = require('node-uuid'),
     aws = require('aws-sdk'),
-    express = require('express');
+    express = require('express'),
+    moment = require('moment');
 
 
 function S3Router(options) {
 
     var S3_BUCKET = options.bucket,
-        getFileKeyDir = options.getFileKeyDir || function() { return "."; };
+        getFileKeyDir = function(name) { return (options.getFileKeyDir ? (options.getFileKeyDir(name) + '/') : '') + moment().format('YYYY[/]MM[/]DD'); };
 
     if (!S3_BUCKET) {
         throw new Error("S3_BUCKET is required.");
@@ -36,7 +37,7 @@ function S3Router(options) {
      * give temporary access to PUT an object in an S3 bucket.
      */
     router.get('/sign', function(req, res) {
-        var filename = uuid.v4() + "_" + req.query.objectName;
+        var filename = Math.floor(new Date() / 1000) + "_" + req.query.objectName;
         var mimeType = mime.lookup(filename);
         var fileKey = getFileKeyDir(req) + '/' + filename;
 

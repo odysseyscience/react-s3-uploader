@@ -106,6 +106,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
     }
     xhr.setRequestHeader('Content-Type', file.type);
     xhr.setRequestHeader('x-amz-acl', 'public-read');
+    this.httprequest = xhr;
     return xhr.send(file);
 };
 
@@ -113,6 +114,15 @@ S3Upload.prototype.uploadFile = function(file) {
     return this.executeOnSignedUrl(file, function(signResult) {
         return this.uploadToS3(file, signResult);
     }.bind(this));
+};
+
+S3Upload.prototype.abortUpload = function() {
+    if(this.httprequest) {
+	console.log('aborting');
+	this.httprequest.abort()
+    } else {
+	console.log('no request to abort');
+    }
 };
 
 

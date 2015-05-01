@@ -47,7 +47,7 @@ function S3Router(options) {
             Key: fileKey,
             Expires: 60,
             ContentType: mimeType,
-            ACL: 'private'
+            ACL: 'public-read'
         };
         s3.getSignedUrl('putObject', params, function(err, data) {
             if (err) {
@@ -57,6 +57,7 @@ function S3Router(options) {
             res.json({
                 signedUrl: data,
                 publicUrl: '/s3/img/' + filename,
+		s3Url: 'https://' + S3_BUCKET + '.s3.amazonaws.com/' + fileKey,
                 filename: filename
             });
         });

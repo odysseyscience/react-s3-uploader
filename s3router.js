@@ -1,4 +1,4 @@
-1;2c
+
 var mime = require('mime'),
     uuid = require('node-uuid'),
     aws = require('aws-sdk'),

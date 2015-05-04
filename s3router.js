@@ -41,7 +41,7 @@ function S3Router(options) {
             res.send(500, "No user is authenticated.");
         } else {
 	    var mimeType = mime.lookup(req.query.objectName);
-	    var filename = Math.floor(new Date() / 1000) + "_" + req.user.username + mime.extension(mimeType);//req.query.objectName;
+	    var filename = Math.floor(new Date() / 1000) + "_" + req.user.username + '.' + mime.extension(mimeType);//req.query.objectName;
             var fileKey = getFileKeyDir(req) + '/' + filename;
 	    
             var s3 = new aws.S3();

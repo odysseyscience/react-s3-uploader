@@ -1,4 +1,4 @@
-
+1;2c
 var mime = require('mime'),
     uuid = require('node-uuid'),
     aws = require('aws-sdk'),
@@ -40,7 +40,7 @@ function S3Router(options) {
         if(!req.user) {
             res.send(500, "No user is authenticated.");
         } else {
-	    var mimeType = mime.lookup(filename);
+	    var mimeType = mime.lookup(req.query.objectName);
 	    var filename = Math.floor(new Date() / 1000) + "_" + req.user.username + mime.extension(mimeType);//req.query.objectName;
             var fileKey = getFileKeyDir(req) + '/' + filename;
 	    

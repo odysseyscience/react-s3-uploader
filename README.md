@@ -74,7 +74,27 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
             headers = {'Content-Type': content_type, 'x-amz-acl':'public-read'})
 
         return HttpResponse(json.dumps({'signedUrl': signed_url}))
-        
+
+#### Ruby on Rails, assuming FOG usage
+
+    # Usual fog config, set as an initializer
+    FOG = Fog::Storage.new({
+      :provider              => 'AWS',
+      :aws_access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
+      :aws_secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    })
+    
+    # In the controller
+    options = {path_style: true}
+    headers = {"Content-Type" => params[:contentType], "x-amz-acl" => "public-read"}
+
+    @url = FOG.put_object_url(ENV['S3_BUCKET_NAME'], "user_uploads/#{params[:objectName]}", 15.minutes.from_now.to_time.to_i, headers, options)
+
+    respond_to do |format|
+      format.json { render json: {signedUrl: @url} }
+    end
+
+
 ##### Other Servers
 
 If you do some work on another server, and would love to contribute documentation, please send us a PR!

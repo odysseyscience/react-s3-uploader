@@ -15,7 +15,6 @@ function checkTrailingSlash(path) {
 function S3Router(options) {
 
     var S3_BUCKET = options.bucket,
-        ACL = options.ACL,
         getFileKeyDir = options.getFileKeyDir || function() { return ""; };
 
     if (!S3_BUCKET) {
@@ -54,7 +53,7 @@ function S3Router(options) {
             Key: fileKey,
             Expires: 60,
             ContentType: mimeType,
-            ACL: options.ACL ? options.ACL : 'private'
+            ACL: options.ACL || 'private'
         };
         s3.getSignedUrl('putObject', params, function(err, data) {
             if (err) {

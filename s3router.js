@@ -53,7 +53,7 @@ function S3Router(options) {
             Key: fileKey,
             Expires: 60,
             ContentType: mimeType,
-            ACL: 'private'
+            ACL: options.ACL || 'private'
         };
         s3.getSignedUrl('putObject', params, function(err, data) {
             if (err) {

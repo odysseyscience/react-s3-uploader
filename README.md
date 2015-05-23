@@ -40,7 +40,8 @@ Server-Side
 You can use the Express router that is bundled with this module to answer calls to `/s3/sign`
 
     app.use('/s3', require('react-s3-uploader/s3router')({
-        bucket: "MyS3Bucket"
+        bucket: "MyS3Bucket",
+        ACL: 'private' // this is default
     }));
 
 This also provides another endpoint: `GET /s3/img/(.*)`.  This will create a temporary URL

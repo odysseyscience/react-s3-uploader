@@ -45,7 +45,7 @@ function S3Router(options) {
     router.get('/sign', function(req, res) {
         var filename = uuid.v4() + "_" + req.query.objectName;
         var mimeType = mime.lookup(filename);
-        var fileKey = getFileKeyDir(req) + '/' + filename;
+        var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
 
         var s3 = new aws.S3();
         var params = {

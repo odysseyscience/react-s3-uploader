@@ -25,9 +25,9 @@ function S3Router(options) {
 
     /**
      * Redirects image requests with a temporary signed URL, giving access
-     * to GET an image.
+     * to GET an upload.
      */
-    router.get(/\/img\/(.*)/, function(req, res) {
+    router.get(/\/upload\/(.*)/, function(req, res) {
         var params = {
             Bucket: S3_BUCKET,
             Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
@@ -62,7 +62,7 @@ function S3Router(options) {
             }
             res.json({
                 signedUrl: data,
-                publicUrl: '/s3/img/' + filename,
+                publicUrl: '/s3/upload/' + filename,
                 filename: filename
             });
         });

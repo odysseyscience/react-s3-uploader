@@ -25,7 +25,6 @@
   "homepage": "https://github.com/odysseyscience/react-s3-uploader",
   "dependencies": {
     "aws-sdk": "2.x",
-    "mime": "1.x",
     "node-uuid": "1.x",
     "object-assign": "^2.0.0"
   },

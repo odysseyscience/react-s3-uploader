@@ -1,8 +1,7 @@
 
-var mime = require('mime'),
-    uuid = require('node-uuid'),
-    aws = require('aws-sdk'),
-    express = require('express');
+ var uuid = require('node-uuid'),
+     aws = require('aws-sdk'),
+     express = require('express');
 
 
 function checkTrailingSlash(path) {
@@ -11,6 +10,21 @@ function checkTrailingSlash(path) {
     }
     return path;
 }
+
+/**
+ * Redirects image requests with a temporary signed URL, giving access
+ * to GET an upload.
+ */
+function tempRedirect(req, res) {
+    var params = {
+        Bucket: S3_BUCKET,
+        Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
+    };
+    var s3 = new aws.S3();
+    s3.getSignedUrl('getObject', params, function(err, url) {
+        res.redirect(url);
+    });
+};
 
 function S3Router(options) {
 
@@ -24,18 +38,17 @@ function S3Router(options) {
     var router = express.Router();
 
     /**
-     * Redirects image requests with a temporary signed URL, giving access
-     * to GET an upload.
+     * Image specific route.
      */
-    router.get(/\/upload\/(.*)/, function(req, res) {
-        var params = {
-            Bucket: S3_BUCKET,
-            Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
-        };
-        var s3 = new aws.S3();
-        s3.getSignedUrl('getObject', params, function(err, url) {
-            res.redirect(url);
-        });
+    router.get(/\/img\/(.*)/, function(req, res) {
+        return tempRedirect(req, res);
+    });
+
+    /**
+     * Other file type(s) route.
+     */
+    router.get(/\/uploads\/(.*)/, function(req, res) {
+        return tempRedirect(req, res);
     });
 
     /**
@@ -62,7 +75,7 @@ function S3Router(options) {
             }
             res.json({
                 signedUrl: data,
-                publicUrl: '/s3/upload/' + filename,
+                publicUrl: '/s3/uploads/' + filename,
                 filename: filename
             });
         });

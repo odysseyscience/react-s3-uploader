@@ -11,21 +11,6 @@ function checkTrailingSlash(path) {
     return path;
 }
 
-/**
- * Redirects image requests with a temporary signed URL, giving access
- * to GET an upload.
- */
-function tempRedirect(req, res) {
-    var params = {
-        Bucket: S3_BUCKET,
-        Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
-    };
-    var s3 = new aws.S3();
-    s3.getSignedUrl('getObject', params, function(err, url) {
-        res.redirect(url);
-    });
-};
-
 function S3Router(options) {
 
     var S3_BUCKET = options.bucket,
@@ -36,6 +21,21 @@ function S3Router(options) {
     }
 
     var router = express.Router();
+
+    /**
+     * Redirects image requests with a temporary signed URL, giving access
+     * to GET an upload.
+     */
+    function tempRedirect(req, res) {
+        var params = {
+            Bucket: S3_BUCKET,
+            Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
+        };
+        var s3 = new aws.S3();
+        s3.getSignedUrl('getObject', params, function(err, url) {
+            res.redirect(url);
+        });
+    };
 
     /**
      * Image specific route.

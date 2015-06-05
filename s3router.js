@@ -16,7 +16,7 @@ function S3Router(options) {
 
     var S3_BUCKET = options.bucket,
         getFileKeyDir = options.getFileKeyDir || function() { return ""; };
-
+    var REGION = options.region;
     if (!S3_BUCKET) {
         throw new Error("S3_BUCKET is required.");
     }
@@ -32,6 +32,7 @@ function S3Router(options) {
             Bucket: S3_BUCKET,
             Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
         };
+        aws.config.update({region: REGION});
         var s3 = new aws.S3();
         s3.getSignedUrl('getObject', params, function(err, url) {
             res.redirect(url);

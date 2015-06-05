@@ -41,6 +41,7 @@ You can use the Express router that is bundled with this module to answer calls 
 
     app.use('/s3', require('react-s3-uploader/s3router')({
         bucket: "MyS3Bucket",
+        region: 'us-east-1', //optional
         ACL: 'private' // this is default
     }));
 

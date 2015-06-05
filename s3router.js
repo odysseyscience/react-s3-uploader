@@ -16,12 +16,12 @@ function S3Router(options) {
 
     var S3_BUCKET = options.bucket,
         getFileKeyDir = options.getFileKeyDir || function() { return ""; };
-    if (options.region) {
-        var REGION = options.region;
-        aws.config.update({region: REGION});
-    }
+
     if (!S3_BUCKET) {
         throw new Error("S3_BUCKET is required.");
+    }
+    if (options.region) {
+        aws.config.update({region: options.region});
     }
 
     var router = express.Router();

@@ -45,7 +45,7 @@ You can use the Express router that is bundled with this module to answer calls 
         ACL: 'private' // this is default
     }));
 
-This also provides another endpoint: `GET /s3/img/(.*)`.  This will create a temporary URL
+This also provides another endpoint: `GET /s3/img/(.*)` and `GET /s3/uploads/(.*)`.  This will create a temporary URL
 that provides access to the uploaded file (which are uploaded privately at the moment).  The
 request is then redirected to the URL, so that the image is served to the client.
 

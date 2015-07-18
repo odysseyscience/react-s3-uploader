@@ -1,0 +1,58 @@
+{
+  "name": "react-s3-uploader",
+  "version": "1.1.12",
+  "description": "React component that renders a file input and automatically uploads to an S3 bucket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:odysseyscience/react-s3-uploader.git"
+  },
+  "keywords": [
+    "react",
+    "upload",
+    "component",
+    "s3",
+    "bucket"
+  ],
+  "author": {
+    "name": "Sean Adkinson"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/odysseyscience/react-s3-uploader/issues"
+  },
+  "homepage": "https://github.com/odysseyscience/react-s3-uploader",
+  "dependencies": {
+    "aws-sdk": "2.x",
+    "node-uuid": "1.x",
+    "object-assign": "^2.0.0"
+  },
+  "peerDependencies": {
+    "express": "4.x",
+    "react": "*"
+  },
+  "gitHead": "39d0eee53e0ce3992305fd5b777ec8b4035d812e",
+  "_id": "react-s3-uploader@1.1.12",
+  "_shasum": "8bea7f4698538cf6ac88fecc7225a809e9f8b9ba",
+  "_from": "react-s3-uploader@*",
+  "_npmVersion": "1.4.28",
+  "_npmUser": {
+    "name": "sadkinson",
+    "email": "sean.adkinson@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "sadkinson",
+      "email": "sean.adkinson@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "8bea7f4698538cf6ac88fecc7225a809e9f8b9ba",
+    "tarball": "http://registry.npmjs.org/react-s3-uploader/-/react-s3-uploader-1.1.12.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/react-s3-uploader/-/react-s3-uploader-1.1.12.tgz"
+}

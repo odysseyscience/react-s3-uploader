@@ -27,7 +27,6 @@ function S3Upload(options) {
             this[option] = options[option];
         }
     }
-    console.log(this.fileElement);
     this.handleFileSelect(this.fileElement);
 }
 

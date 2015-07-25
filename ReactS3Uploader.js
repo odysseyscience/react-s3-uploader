@@ -14,6 +14,8 @@ var ReactS3Uploader = React.createClass({
         }
     },   
 
+    objectAssign = require('object-assign');
+
     propTypes: {
         signingUrl: React.PropTypes.string.isRequired,
         onProgress: React.PropTypes.func,
@@ -24,14 +26,16 @@ var ReactS3Uploader = React.createClass({
     onProgress: function(percent){
         this.setState({progress: percent});
     },
-    getDefaultProps: function() {
+   getDefaultProps: function() {
         return {
             onProgress: function(percent, message) {
-            
+                console.log('Upload progress: ' + percent + '% ' + message);
             },
             onFinish: function(signResult) {
+                console.log("Upload finished: " + signResult.publicUrl)
             },
             onError: function(message) {
+                console.log("Upload error: " + message);
             }
         };
     },
@@ -45,6 +49,7 @@ var ReactS3Uploader = React.createClass({
         this.setState({filename:file.name});
         var self=this;
 
+    uploadFile: function() {
         new S3Upload({
             fileElement: e.target,
             signingUrl: this.props.signingUrl,
@@ -75,7 +80,6 @@ var ReactS3Uploader = React.createClass({
 
  
 
-    }
 
 });
 

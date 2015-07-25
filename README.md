@@ -55,7 +55,7 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
 
 ### Other Types of Servers
 
-##### Boto for Python, in a flask project (with URL obfuscation)
+##### Boto for Python, in a flask project
     import boto
     import mimetypes
     import json

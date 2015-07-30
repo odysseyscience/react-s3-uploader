@@ -33,7 +33,6 @@
   "peerDependencies": {
     "express": "4.x",
     "react": "*"
-<<<<<<< HEAD
   },
   "gitHead": "39d0eee53e0ce3992305fd5b777ec8b4035d812e",
   "_id": "react-s3-uploader@1.1.12",
@@ -55,8 +54,6 @@
     "tarball": "http://registry.npmjs.org/react-s3-uploader/-/react-s3-uploader-1.1.12.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/react-s3-uploader/-/react-s3-uploader-1.1.12.tgz"
-=======
+      "_resolved": "https://registry.npmjs.org/react-s3-uploader/-/react-s3-uploader-1.1.12.tgz"
   }
->>>>>>> 39d0eee53e0ce3992305fd5b777ec8b4035d812e
 }

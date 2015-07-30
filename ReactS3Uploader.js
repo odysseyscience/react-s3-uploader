@@ -40,11 +40,8 @@ var ReactS3Uploader = React.createClass({
 
     uploadFile: function(e) {
         var file = e.target.files[0];
-        
-        console.log(e);
-
-        if (!file) return;
         this.setState({filename:file.name});
+
         var self=this;
 
         new S3Upload({

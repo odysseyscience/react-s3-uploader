@@ -32,12 +32,8 @@ function S3Upload(options) {
 
 S3Upload.prototype.handleFileSelect = function(fileElement) {
     this.onProgress(0, 'Upload started.');
-    var files = fileElement.files;
-    var result = [];
-    for (var i=0; i < files.length; i++) {
-        var f = files[i];
-        result.push(this.uploadFile(f));
-    }
+    result = [];
+    result.push(this.uploadFile(fileElement));
     return result;
 };
 

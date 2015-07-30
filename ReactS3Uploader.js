@@ -14,8 +14,6 @@ var ReactS3Uploader = React.createClass({
         }
     },   
 
-    objectAssign = require('object-assign');
-
     propTypes: {
         signingUrl: React.PropTypes.string.isRequired,
         onProgress: React.PropTypes.func,
@@ -49,9 +47,8 @@ var ReactS3Uploader = React.createClass({
         this.setState({filename:file.name});
         var self=this;
 
-    uploadFile: function() {
         new S3Upload({
-            fileElement: e.target,
+            fileElement: file,
             signingUrl: this.props.signingUrl,
             onProgress: self.onProgress,
             onFinishS3Put: this.props.onFinish,
@@ -77,10 +74,7 @@ var ReactS3Uploader = React.createClass({
                 )
 
            );
-
- 
-
-
+    }
 });
 
 

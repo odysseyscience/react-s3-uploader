@@ -60,7 +60,22 @@ S3Upload.prototype.createCORSRequest = function(method, url) {
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     var xhr = new XMLHttpRequest();
     var fileName = file.name.replace(/\s+/g, "_");
-    xhr.open('GET', this.signingUrl + '?objectName=' + fileName + '&contentType=' + file.type, true);
+    var queryString = '?objectName=' + fileName + '&contentType=' + file.type;
+    if(this.signingUrlQueryParams) {
+        var signingUrlQueryParams = this.signingUrlQueryParams;
+        Object.keys(signingUrlQueryParams).forEach(function(key) {
+            var val = signingUrlQueryParams[key];
+            queryString += '&' + key + '=' + val;
+        });
+    }
+    xhr.open('GET', this.signingUrl + queryString, true);
+    if(this.signingUrlHeaders) {
+        var signingUrlHeaders = this.signingUrlHeaders;
+        Object.keys(signingUrlHeaders).forEach(function(key) {
+            var val = signingUrlHeaders[key];
+            xhr.setRequestHeader(key, val);
+        });
+    }
     xhr.overrideMimeType && xhr.overrideMimeType('text/plain; charset=x-user-defined');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -104,7 +119,15 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         }.bind(this);
     }
     xhr.setRequestHeader('Content-Type', file.type);
-    xhr.setRequestHeader('x-amz-acl', 'public-read');
+    if(this.uploadRequestHeaders) {
+        var uploadRequestHeaders = this.uploadRequestHeaders;
+        Object.keys(uploadRequestHeaders).forEach(function(key) {
+            var val = uploadRequestHeaders[key];
+            xhr.setRequestHeader(key, val);
+        });
+    } else {
+        xhr.setRequestHeader('x-amz-acl', 'public-read');
+    }
     return xhr.send(file);
 };
 

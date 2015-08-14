@@ -2,9 +2,17 @@
 
 var React = require('react'),
     S3Upload = require('./s3upload.js'),
-    objectAssign = require('object-assign');
+    objectAssign = require('object-assign'),
+    ProgressBar = require('react-bootstrap/lib/ProgressBar');
 
 var ReactS3Uploader = React.createClass({
+
+    getInitialState:function(){
+        return{
+            filename:"",
+            progress:0
+        }
+    },   
 
     propTypes: {
         signingUrl: React.PropTypes.string.isRequired,
@@ -16,7 +24,10 @@ var ReactS3Uploader = React.createClass({
         uploadRequestHeaders: React.PropTypes.object
     },
 
-    getDefaultProps: function() {
+    onProgress: function(percent){
+        this.setState({progress: percent});
+    },
+   getDefaultProps: function() {
         return {
             onProgress: function(percent, message) {
                 console.log('Upload progress: ' + percent + '% ' + message);
@@ -30,11 +41,16 @@ var ReactS3Uploader = React.createClass({
         };
     },
 
-    uploadFile: function() {
+    uploadFile: function(e) {
+        var file = e.target.files[0];
+        this.setState({filename:file.name});
+
+        var self=this;
+
         new S3Upload({
-            fileElement: this.getDOMNode(),
+            fileElement: file,
             signingUrl: this.props.signingUrl,
-            onProgress: this.props.onProgress,
+            onProgress: self.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,
             signingUrlHeaders: this.props.signingUrlHeaders,
@@ -44,9 +60,24 @@ var ReactS3Uploader = React.createClass({
     },
 
     render: function() {
-        return React.DOM.input(objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile}));
-    }
+        return (
 
+                React.createElement("div", {className: "react-s3-uploader"}, 
+
+                    React.createElement("div", {className: "button"}, 
+                       React.createElement("div", {className: "fileUpload btn btn-primary"}, 
+                            React.createElement("span", null, React.createElement("i", {className: "fa fa-paperclip"})), 
+                            React.createElement("input", {ref: "in", className: "upload", type: "file", accept: "/*", onChange: this.uploadFile})
+                       )
+                    ), 
+                    React.createElement("div", {className: "filename"}, 
+                    this.state.filename
+                    ),
+                    React.createElement(ProgressBar,{now:this.state.progress, label:'%(percent)s%', srOnly:true})
+                )
+
+           );
+    }
 });
 
 

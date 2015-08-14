@@ -58,6 +58,33 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
 
 ### Other Types of Servers
 
+##### Boto for Python, in a flask project
+    import boto
+    import mimetypes
+    import json
+    import os
+
+    ...
+
+    @blueprint.route("/s3_sign/<folder_name>",methods=['GET'])
+    def sign_s3_upload(folder_name):
+        conn = boto.connect_s3(app.config['AWS_KEY'], app.config['AWS_SECRET'])
+        object_name = request.args.get('objectName', type=str)
+        content_type = mimetypes.guess_type(object_name)[0]
+
+        filename,extension = os.path.splitext(object_name)
+
+        signed_url = conn.generate_url(
+            300,
+            "PUT",
+            app.config['BUCKET_NAME'],
+            '/' + folder_name + '/' + filename + extension,
+            headers = {'Content-Type': content_type, 'x-amz-acl':'public-read'})
+
+
+        return json.dumps({'signedUrl': signed_url})
+
+
 ##### Boto for Python, in a Django project
 
     import boto

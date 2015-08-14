@@ -20,9 +20,12 @@ From Browser
         accept="image/*"
         onProgress={this.onUploadProgress}
         onError={this.onUploadError}
-        onFinish={this.onUploadFinish}/>
+        onFinish={this.onUploadFinish}
+        signingUrlHeaders={{ additional: headers }}
+        signingUrlQueryParams={{ additional: query-params }}
+        uploadRequestHeaders={{ 'x-amz-acl', 'public-read' }} />
 
-The above example shows all supported `props`.
+The above example shows all supported `props`.  For `uploadRequestHeaders`, the default ACL is shown.
 
 This expects a request to `/s3/sign` to return JSON with a `signedUrl` property that can be used
 to PUT the file in S3.
@@ -56,7 +59,7 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
 ### Other Types of Servers
 
 ##### Boto for Python, in a Django project
-    
+
     import boto
     import mimetypes
     import json
@@ -69,9 +72,9 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
         content_type = mimetypes.guess_type(object_name)[0]
 
         signed_url = conn.generate_url(
-            300, 
-            "PUT", 
-            'BUCKET_NAME', 
+            300,
+            "PUT",
+            'BUCKET_NAME',
             'FOLDER_NAME' + object_name,
             headers = {'Content-Type': content_type, 'x-amz-acl':'public-read'})
 
@@ -85,7 +88,7 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
       :aws_access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
       :aws_secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     })
-    
+
     # In the controller
     options = {path_style: true}
     headers = {"Content-Type" => params[:contentType], "x-amz-acl" => "public-read"}

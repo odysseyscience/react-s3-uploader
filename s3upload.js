@@ -61,7 +61,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     var xhr = new XMLHttpRequest();
     var fileName = file.name.replace(/\s+/g, "_");
     var queryString = '?objectName=' + fileName + '&contentType=' + file.type;
-    if(this.signingUrlQueryParams) {
+    if (this.signingUrlQueryParams) {
         var signingUrlQueryParams = this.signingUrlQueryParams;
         Object.keys(signingUrlQueryParams).forEach(function(key) {
             var val = signingUrlQueryParams[key];
@@ -69,7 +69,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
         });
     }
     xhr.open('GET', this.signingUrl + queryString, true);
-    if(this.signingUrlHeaders) {
+    if (this.signingUrlHeaders) {
         var signingUrlHeaders = this.signingUrlHeaders;
         Object.keys(signingUrlHeaders).forEach(function(key) {
             var val = signingUrlHeaders[key];
@@ -119,7 +119,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         }.bind(this);
     }
     xhr.setRequestHeader('Content-Type', file.type);
-    if(this.uploadRequestHeaders) {
+    if (this.uploadRequestHeaders) {
         var uploadRequestHeaders = this.uploadRequestHeaders;
         Object.keys(uploadRequestHeaders).forEach(function(key) {
             var val = uploadRequestHeaders[key];

@@ -27,8 +27,10 @@
   "homepage": "https://github.com/odysseyscience/react-s3-uploader",
   "dependencies": {
     "aws-sdk": "2.x",
+    "express": "^4.13.3",
     "node-uuid": "1.x",
-    "object-assign": "^2.0.0"
+    "object-assign": "^2.0.0",
+    "react": "^0.13.3"
   },
   "peerDependencies": {
     "express": "4.x",
@@ -53,7 +55,7 @@
     "shasum": "8bea7f4698538cf6ac88fecc7225a809e9f8b9ba",
     "tarball": "http://registry.npmjs.org/react-s3-uploader/-/react-s3-uploader-1.1.12.tgz"
   },
-  "directories": {},
-      "_resolved": "https://registry.npmjs.org/react-s3-uploader/-/react-s3-uploader-1.1.12.tgz"
+  "directories": {
+    "_resolved": "https://registry.npmjs.org/react-s3-uploader/-/react-s3-uploader-1.1.12.tgz"
   }
 }

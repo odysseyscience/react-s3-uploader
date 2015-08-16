@@ -61,7 +61,7 @@ var ReactS3Uploader = React.createClass({
                     React.createElement("div", {className: "button"}, 
                        React.createElement("div", {className: "fileUpload btn btn-primary"}, 
                             React.createElement("span", null, React.createElement("i", {className: "fa fa-paperclip"})), 
-                            React.createElement("input", {ref: "in", className: "upload", type: "file", accept: "/*", onChange: this.uploadFile})
+                            React.createElement("input", { className: "upload", type: "file", accept: "/*", onChange: this.uploadFile})
                        )
                     ), 
                     React.createElement("div", {className: "filename"}, 

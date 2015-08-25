@@ -22,7 +22,7 @@ function S3Upload(options) {
     if (options == null) {
         options = {};
     }
-    for (option in options) {
+    for (var option in options) {
         if (options.hasOwnProperty(option)) {
             this[option] = options[option];
         }

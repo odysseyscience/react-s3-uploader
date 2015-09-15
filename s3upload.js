@@ -122,11 +122,11 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
     if (this.contentDisposition) {
         var disposition = this.contentDisposition;
         if (disposition === 'auto') {
-          if (file.type.substr(0, 6) === 'image/') {
-            disposition = 'inline';
-          } else {
-            disposition = 'attachment';
-          }
+            if (file.type.substr(0, 6) === 'image/') {
+                disposition = 'inline';
+            } else {
+                disposition = 'attachment';
+            }
         }
         var fileName = file.name.replace(/\s+/g, "_");
         xhr.setRequestHeader('Content-Disposition', disposition + '; filename=' + fileName);

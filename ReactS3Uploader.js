@@ -13,7 +13,8 @@ var ReactS3Uploader = React.createClass({
         onError: React.PropTypes.func,
         signingUrlHeaders: React.PropTypes.object,
         signingUrlQueryParams: React.PropTypes.object,
-        uploadRequestHeaders: React.PropTypes.object
+        uploadRequestHeaders: React.PropTypes.object,
+        contentDisposition: React.PropTypes.string
     },
 
     getDefaultProps: function() {
@@ -39,7 +40,8 @@ var ReactS3Uploader = React.createClass({
             onError: this.props.onError,
             signingUrlHeaders: this.props.signingUrlHeaders,
             signingUrlQueryParams: this.props.signingUrlQueryParams,
-            uploadRequestHeaders: this.props.uploadRequestHeaders
+            uploadRequestHeaders: this.props.uploadRequestHeaders,
+            contentDisposition: this.props.contentDisposition
         });
     },
 

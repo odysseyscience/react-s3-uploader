@@ -23,12 +23,18 @@ From Browser
         onFinish={this.onUploadFinish}
         signingUrlHeaders={{ additional: headers }}
         signingUrlQueryParams={{ additional: query-params }}
-        uploadRequestHeaders={{ 'x-amz-acl', 'public-read' }} />
+        uploadRequestHeaders={{ 'x-amz-acl', 'public-read' }}
+        contentDisposition="auto" />
 
 The above example shows all supported `props`.  For `uploadRequestHeaders`, the default ACL is shown.
 
 This expects a request to `/s3/sign` to return JSON with a `signedUrl` property that can be used
 to PUT the file in S3.
+
+`contentDisposition` is optional and can be one of `inline`, `attachment` or `auto`. If given,
+the `Content-Disposition` header will be set accordingly with the file's original filename.
+If it is `auto`, the disposition type will be set to `inline` for images and `attachment` for
+all other files.
 
 The resulting DOM is essentially:
 

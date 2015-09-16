@@ -119,6 +119,18 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         }.bind(this);
     }
     xhr.setRequestHeader('Content-Type', file.type);
+    if (this.contentDisposition) {
+        var disposition = this.contentDisposition;
+        if (disposition === 'auto') {
+            if (file.type.substr(0, 6) === 'image/') {
+                disposition = 'inline';
+            } else {
+                disposition = 'attachment';
+            }
+        }
+        var fileName = file.name.replace(/\s+/g, "_");
+        xhr.setRequestHeader('Content-Disposition', disposition + '; filename=' + fileName);
+    }
     if (this.uploadRequestHeaders) {
         var uploadRequestHeaders = this.uploadRequestHeaders;
         Object.keys(uploadRequestHeaders).forEach(function(key) {

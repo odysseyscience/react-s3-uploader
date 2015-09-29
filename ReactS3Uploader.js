@@ -19,8 +19,8 @@ var ReactS3Uploader = React.createClass({
 
     getDefaultProps: function() {
         return {
-            onProgress: function(percent, message) {
-                console.log('Upload progress: ' + percent + '% ' + message);
+            onProgress: function(file, percent, message) {
+                console.log('Upload progress: ' + file.name + ' ' + percent + '% ' + message);
             },
             onFinish: function(signResult) {
                 console.log("Upload finished: " + signResult.publicUrl)

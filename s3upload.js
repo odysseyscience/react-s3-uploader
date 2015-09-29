@@ -5,6 +5,7 @@
 
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.fileElement = null;
+S3Upload.prototype.files = null;
 
 S3Upload.prototype.onFinishS3Put = function(signResult) {
     return console.log('base.onFinishS3Put()', signResult.publicUrl);
@@ -27,12 +28,12 @@ function S3Upload(options) {
             this[option] = options[option];
         }
     }
-    this.handleFileSelect(this.fileElement);
+    var files = this.fileElement ? this.fileElement.files : this.files || [];
+    this.handleFileSelect(files);
 }
 
-S3Upload.prototype.handleFileSelect = function(fileElement) {
-    this.onProgress(0, 'Upload started.');
-    var files = fileElement.files;
+S3Upload.prototype.handleFileSelect = function(files) {
+    this.onProgress(0, 'Waiting');
     var result = [];
     for (var i=0; i < files.length; i++) {
         var f = files[i];
@@ -114,7 +115,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
             var percentLoaded;
             if (e.lengthComputable) {
                 percentLoaded = Math.round((e.loaded / e.total) * 100);
-                return this.onProgress(percentLoaded, percentLoaded === 100 ? 'Finalizing.' : 'Uploading.');
+                return this.onProgress(percentLoaded, percentLoaded === 100 ? 'Finalizing' : 'Uploading');
             }
         }.bind(this);
     }
@@ -140,6 +141,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
     } else {
         xhr.setRequestHeader('x-amz-acl', 'public-read');
     }
+    this.httprequest = xhr;
     return xhr.send(file);
 };
 
@@ -147,6 +149,10 @@ S3Upload.prototype.uploadFile = function(file) {
     return this.executeOnSignedUrl(file, function(signResult) {
         return this.uploadToS3(file, signResult);
     }.bind(this));
+};
+
+S3Upload.prototype.abortUpload = function() {
+    this.httprequest && this.httprequest.abort();
 };
 
 

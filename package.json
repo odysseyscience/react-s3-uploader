@@ -27,9 +27,5 @@
     "aws-sdk": "2.x",
     "node-uuid": "1.x",
     "object-assign": "^2.0.0"
-  },
-  "peerDependencies": {
-    "express": "4.x",
-    "react": "*"
   }
 }

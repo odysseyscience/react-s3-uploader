@@ -45,11 +45,31 @@ var ReactS3Uploader = React.createClass({
         });
     },
 
+    clear: function() {
+        clearInputFile(this.getDOMNode());
+    },
+
     render: function() {
         return React.DOM.input(objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile}));
     }
 
 });
+
+// http://stackoverflow.com/a/24608023/194065
+function clearInputFile(f){
+    if(f.value){
+        try{
+            f.value = ''; //for IE11, latest Chrome/Firefox/Opera...
+        }catch(err){ }
+        if(f.value){ //for IE5 ~ IE10
+            var form = document.createElement('form'),
+                parentNode = f.parentNode, ref = f.nextSibling;
+            form.appendChild(f);
+            form.reset();
+            parentNode.insertBefore(f,ref);
+        }
+    }
+}
 
 
 module.exports = ReactS3Uploader;

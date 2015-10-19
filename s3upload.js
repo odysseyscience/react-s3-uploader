@@ -7,15 +7,15 @@ S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.fileElement = null;
 S3Upload.prototype.files = null;
 
-S3Upload.prototype.onFinishS3Put = function(file, signResult) {
+S3Upload.prototype.onFinishS3Put = function(signResult, file) {
     return console.log('base.onFinishS3Put()', signResult.publicUrl);
 };
 
-S3Upload.prototype.onProgress = function(file, percent, status) {
+S3Upload.prototype.onProgress = function(percent, status, file) {
     return console.log('base.onProgress()', percent, status, file);
 };
 
-S3Upload.prototype.onError = function(file, status) {
+S3Upload.prototype.onError = function(status, file) {
     return console.log('base.onError()', status);
 };
 
@@ -95,7 +95,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     return xhr.send();
 };
 
-S3Upload.prototype.uploadToS3 = function(file, signResult) {
+S3Upload.prototype.uploadToS3 = function(signResult, file) {
     var xhr = this.createCORSRequest('PUT', signResult.signedUrl);
     if (!xhr) {
         this.onError(file, 'CORS not supported');

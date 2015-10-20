@@ -33,7 +33,7 @@ var ReactS3Uploader = React.createClass({
 
     uploadFile: function() {
         new S3Upload({
-            fileElement: this.getDOMNode(),
+            fileElement: findDOMNode(this),
             signingUrl: this.props.signingUrl,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
@@ -50,6 +50,10 @@ var ReactS3Uploader = React.createClass({
     }
 
 });
+
+function findDOMNode(cmp) {
+    return React.findDOMNode ? React.findDOMNode(cmp) : cmp.getDOMNode();
+}
 
 
 module.exports = ReactS3Uploader;

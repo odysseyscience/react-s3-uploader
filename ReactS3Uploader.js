@@ -14,7 +14,8 @@ var ReactS3Uploader = React.createClass({
         signingUrlHeaders: React.PropTypes.object,
         signingUrlQueryParams: React.PropTypes.object,
         uploadRequestHeaders: React.PropTypes.object,
-        contentDisposition: React.PropTypes.string
+        contentDisposition: React.PropTypes.string,
+        onUploadStart: React.PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -27,12 +28,15 @@ var ReactS3Uploader = React.createClass({
             },
             onError: function(message) {
                 console.log("Upload error: " + message);
+            },
+            onUploadStart: function(s3upload, clear) {
+                console.log("Upload started: " + s3upload);
             }
         };
     },
 
     uploadFile: function() {
-        new S3Upload({
+        var s3upload = new S3Upload({
             fileElement: findDOMNode(this),
             signingUrl: this.props.signingUrl,
             onProgress: this.props.onProgress,
@@ -43,6 +47,7 @@ var ReactS3Uploader = React.createClass({
             uploadRequestHeaders: this.props.uploadRequestHeaders,
             contentDisposition: this.props.contentDisposition
         });
+        this.props.onUploadStart(s3upload, this.clear);
     },
 
     clear: function() {
@@ -74,6 +79,5 @@ function clearInputFile(f){
         }
     }
 }
-
 
 module.exports = ReactS3Uploader;

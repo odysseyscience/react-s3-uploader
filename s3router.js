@@ -62,6 +62,10 @@ function S3Router(options) {
         var filename = uuid.v4() + "_" + req.query.objectName;
         var mimeType = req.query.contentType;
         var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
+        // Set any custom headers
+        if (options.headers) {
+          res.set(options.headers)
+        }
 
         var s3 = new aws.S3();
         var params = {

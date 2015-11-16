@@ -24,7 +24,8 @@ From Browser
         signingUrlHeaders={{ additional: headers }}
         signingUrlQueryParams={{ additional: query-params }}
         uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
-        contentDisposition="auto" />
+        contentDisposition="auto"
+        server="http://cross-origin-server.com" />
 
 The above example shows all supported `props`.  For `uploadRequestHeaders`, the default ACL is shown.
 
@@ -35,6 +36,10 @@ to PUT the file in S3.
 the `Content-Disposition` header will be set accordingly with the file's original filename.
 If it is `auto`, the disposition type will be set to `inline` for images and `attachment` for
 all other files.
+
+`server` is optional and can be used to specify the location of the server which is
+running the ReactS3Uploader server component if it is not the same as the one from
+which the client is served.
 
 The resulting DOM is essentially:
 
@@ -51,6 +56,7 @@ You can use the Express router that is bundled with this module to answer calls 
     app.use('/s3', require('react-s3-uploader/s3router')({
         bucket: "MyS3Bucket",
         region: 'us-east-1', //optional
+        headers: {'Access-Control-Allow-Origin': '*'}, // optional
         ACL: 'private' // this is default
     }));
 

@@ -64,7 +64,7 @@ function S3Router(options) {
         var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
         // Set any custom headers
         if (options.headers) {
-          res.set(options.headers)
+          res.set(options.headers);
         }
 
         var s3 = new aws.S3();

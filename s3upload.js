@@ -2,6 +2,9 @@
  * Taken, CommonJS-ified, and heavily modified from:
  * https://github.com/flyingsparx/NodeDirectUploader
  */
+ 
+var latinize = require('latinize'),
+    unorm = require('unorm');
 
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.fileElement = null;
@@ -60,7 +63,8 @@ S3Upload.prototype.createCORSRequest = function(method, url) {
 
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     var xhr = new XMLHttpRequest();
-    var fileName = file.name.replace(/\s+/g, "_");
+    var normalizedFileName = file.name.replace(/\s+/g, "_").normalize();
+    var fileName = latinize(normalizedFileName);
     var queryString = '?objectName=' + fileName + '&contentType=' + file.type;
     if (this.signingUrlQueryParams) {
         var signingUrlQueryParams = this.signingUrlQueryParams;
@@ -129,7 +133,8 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
                 disposition = 'attachment';
             }
         }
-        var fileName = file.name.replace(/\s+/g, "_");
+        var normalizedFileName = file.name.replace(/\s+/g, "_").normalize();
+        var fileName = latinize(normalizedFileName);
         xhr.setRequestHeader('Content-Disposition', disposition + '; filename=' + fileName);
     }
     if (this.uploadRequestHeaders) {

@@ -109,3 +109,12 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
 ##### Other Servers
 
 If you do some work on another server, and would love to contribute documentation, please send us a PR!
+
+
+Changelog (Starting at 1.2.0)
+------------
+
+##### 1.2.0
+
+* Added dependencies `unorm` and `latinize` for uploading files with non-latin characters.
+* Filenames are normalized, latinized, and whitespace is stripped before uploading

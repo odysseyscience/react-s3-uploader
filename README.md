@@ -120,6 +120,11 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
+##### master
+
+* Added `server` prop to `ReactS3Uploader` to support running the signing server on a different domain
+* Added `headers` option to `s3router` to support specifying `'Access-Control-Allow-Origin'` header (or any others)
+
 ##### 1.2.0
 
 * Added dependencies `unorm` and `latinize` for uploading files with non-latin characters.

@@ -62,7 +62,6 @@ S3Upload.prototype.createCORSRequest = function(method, url) {
 };
 
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
-    var xhr = new XMLHttpRequest();
     var normalizedFileName = file.name.replace(/\s+/g, "_").normalize();
     var fileName = latinize(normalizedFileName);
     var queryString = '?objectName=' + fileName + '&contentType=' + file.type;
@@ -73,7 +72,8 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
             queryString += '&' + key + '=' + val;
         });
     }
-    xhr.open('GET', this.signingUrl + queryString, true);
+    var xhr = this.createCORSRequest('GET',
+        this.server + this.signingUrl + queryString);
     if (this.signingUrlHeaders) {
         var signingUrlHeaders = this.signingUrlHeaders;
         Object.keys(signingUrlHeaders).forEach(function(key) {

@@ -120,10 +120,11 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
-##### master
+##### 1.2.1
 
 * Added `server` prop to `ReactS3Uploader` to support running the signing server on a different domain
 * Added `headers` option to `s3router` to support specifying `'Access-Control-Allow-Origin'` header (or any others)
+* [Fixes #44] Using `unorm.nfc(str)` in favor of `str.normalize()`
 
 ##### 1.2.0
 

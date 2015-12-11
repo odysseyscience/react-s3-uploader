@@ -61,7 +61,7 @@ You can use the Express router that is bundled with this module to answer calls 
     }));
 
 This also provides another endpoint: `GET /s3/img/(.*)` and `GET /s3/uploads/(.*)`.  This will create a temporary URL
-that provides access to the uploaded file (which are uploaded privately at the moment).  The
+that provides access to the uploaded file (which are uploaded privately by default).  The
 request is then redirected to the URL, so that the image is served to the client.
 
 #### Access/Secret Keys
@@ -119,6 +119,10 @@ If you do some work on another server, and would love to contribute documentatio
 
 Changelog (Starting at 1.2.0)
 ------------
+
+##### 1.2.2
+
+* [Fixes #48] Only setting the AWS region for the S3 client, not the global default
 
 ##### 1.2.1
 

@@ -19,8 +19,10 @@ function S3Router(options) {
     if (!S3_BUCKET) {
         throw new Error("S3_BUCKET is required.");
     }
+
+    var s3Options = {};
     if (options.region) {
-        aws.config.update({region: options.region});
+      s3Options.region = options.region;
     }
 
     var router = express.Router();
@@ -34,7 +36,7 @@ function S3Router(options) {
             Bucket: S3_BUCKET,
             Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
         };
-        var s3 = new aws.S3();
+        var s3 = new aws.S3(s3Options);
         s3.getSignedUrl('getObject', params, function(err, url) {
             res.redirect(url);
         });
@@ -67,7 +69,7 @@ function S3Router(options) {
           res.set(options.headers);
         }
 
-        var s3 = new aws.S3();
+        var s3 = new aws.S3(s3Options);
         var params = {
             Bucket: S3_BUCKET,
             Key: fileKey,

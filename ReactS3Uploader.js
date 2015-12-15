@@ -15,7 +15,8 @@ var ReactS3Uploader = React.createClass({
         signingUrlQueryParams: React.PropTypes.object,
         uploadRequestHeaders: React.PropTypes.object,
         contentDisposition: React.PropTypes.string,
-        server: React.PropTypes.string
+        server: React.PropTypes.string,
+        multiple: React.PropTypes.bool
     },
 
     getDefaultProps: function() {
@@ -29,7 +30,8 @@ var ReactS3Uploader = React.createClass({
             onError: function(message) {
                 console.log("Upload error: " + message);
             },
-            server: ''
+            server: '',
+            multiple: false
         };
     },
 
@@ -53,7 +55,7 @@ var ReactS3Uploader = React.createClass({
     },
 
     render: function() {
-        return React.DOM.input(objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile}));
+        return React.DOM.input(objectAssign({}, this.props, {type: 'file', multiple: this.props.multiple, onChange: this.uploadFile}));
     }
 
 });

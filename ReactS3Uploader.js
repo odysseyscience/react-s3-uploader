@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require('react'),
+    ReactDOM = require('react-dom'),
     S3Upload = require('./s3upload.js'),
     objectAssign = require('object-assign');
 
@@ -59,7 +60,7 @@ var ReactS3Uploader = React.createClass({
 });
 
 function findDOMNode(cmp) {
-    return React.findDOMNode ? React.findDOMNode(cmp) : cmp.getDOMNode();
+    return ReactDOM.findDOMNode(cmp);
 }
 
 // http://stackoverflow.com/a/24608023/194065

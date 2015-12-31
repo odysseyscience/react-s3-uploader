@@ -120,6 +120,10 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
+##### master (next release)
+
+* [Fixes #51] url encode the contentType
+
 ##### 1.2.2
 
 * [Fixes #48] Only setting the AWS region for the S3 client, not the global default

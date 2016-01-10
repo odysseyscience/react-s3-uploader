@@ -31,7 +31,6 @@
     "unorm": "1.4.x"
   },
   "peerDependencies": {
-    "express": "4.x",
     "react": "*"
   }
 }

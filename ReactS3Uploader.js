@@ -34,7 +34,7 @@ var ReactS3Uploader = React.createClass({
     },
 
     uploadFile: function() {
-        new S3Upload({
+        this.S3Upload = new S3Upload({
             fileElement: findDOMNode(this),
             signingUrl: this.props.signingUrl,
             onProgress: this.props.onProgress,

@@ -122,6 +122,10 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
+##### 3.0
+
+* Using `react-dom`
+
 ##### 2.0
 
 * **Breaking Change** [Fixes #52] Removing `express` as a `peerDependency`.  Projects should explicitly depend on `express` to use the bundled router

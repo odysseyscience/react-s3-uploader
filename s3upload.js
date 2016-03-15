@@ -6,6 +6,7 @@
 var latinize = require('latinize'),
     unorm = require('unorm');
 
+S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.fileElement = null;
 S3Upload.prototype.files = null;

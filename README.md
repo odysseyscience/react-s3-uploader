@@ -122,6 +122,10 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
+##### 3.0.2
+
+* Not passing non-JSON response text to error handlers
+
 ##### 3.0.1
 
 * Fixes issue where URL would include "undefined" if this.server was not specified

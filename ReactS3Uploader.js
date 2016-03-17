@@ -25,7 +25,7 @@ var ReactS3Uploader = React.createClass({
                 console.log('Upload progress: ' + percent + '% ' + message);
             },
             onFinish: function(signResult) {
-                console.log("Upload finished: " + signResult.publicUrl)
+                this.props.onFinish(signResult);
             },
             onError: function(message) {
                 console.log("Upload error: " + message);

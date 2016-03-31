@@ -24,6 +24,9 @@ function S3Router(options) {
     if (options.region) {
       s3Options.region = options.region;
     }
+    if (options.signatureVersion) {
+        s3Options.signatureVersion = options.signatureVersion;
+    }
 
     var router = express.Router();
 

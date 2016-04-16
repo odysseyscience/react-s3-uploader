@@ -5,27 +5,29 @@ Provides a `React` component that automatically uploads to an S3 Bucket.
 
 Install
 -----------
-
-    $ npm install react-s3-uploader
-
+```bash
+$ npm install react-s3-uploader
+```
 From Browser
 ------------
 
-    var ReactS3Uploader = require('react-s3-uploader');
+```jsx
+var ReactS3Uploader = require('react-s3-uploader');
 
-    ...
+...
 
-    <ReactS3Uploader
-        signingUrl="/s3/sign"
-        accept="image/*"
-        onProgress={this.onUploadProgress}
-        onError={this.onUploadError}
-        onFinish={this.onUploadFinish}
-        signingUrlHeaders={{ additional: headers }}
-        signingUrlQueryParams={{ additional: query-params }}
-        uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
-        contentDisposition="auto"
-        server="http://cross-origin-server.com" />
+<ReactS3Uploader
+    signingUrl="/s3/sign"
+    accept="image/*"
+    onProgress={this.onUploadProgress}
+    onError={this.onUploadError}
+    onFinish={this.onUploadFinish}
+    signingUrlHeaders={{ additional: headers }}
+    signingUrlQueryParams={{ additional: query-params }}
+    uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
+    contentDisposition="auto"
+    server="http://cross-origin-server.com" />
+```
 
 The above example shows all supported `props`.  For `uploadRequestHeaders`, the default ACL is shown.
 
@@ -43,7 +45,9 @@ which the client is served.
 
 The resulting DOM is essentially:
 
-    <input type="file" onChange={this.uploadFile} />
+```jsx
+<input type="file" onChange={this.uploadFile} />
+```
 
 When a file is chosen, it will immediately be uploaded to S3.  You can listen for progress (and
 create a status bar, for example) by providing an `onProgress` function to the component.
@@ -53,13 +57,15 @@ Server-Side
 ### Bundled router
 You can use the Express router that is bundled with this module to answer calls to `/s3/sign`
 
-    app.use('/s3', require('react-s3-uploader/s3router')({
-        bucket: "MyS3Bucket",
-        region: 'us-east-1', //optional
-        signatureVersion: 'v4', //optional (use for some amazon regions: frankfurt and others)
-        headers: {'Access-Control-Allow-Origin': '*'}, // optional
-        ACL: 'private' // this is default
-    }));
+```js
+app.use('/s3', require('react-s3-uploader/s3router')({
+    bucket: "MyS3Bucket",
+    region: 'us-east-1', //optional
+    signatureVersion: 'v4', //optional (use for some amazon regions: frankfurt and others)
+    headers: {'Access-Control-Allow-Origin': '*'}, // optional
+    ACL: 'private' // this is default
+}));
+```
 
 This also provides another endpoint: `GET /s3/img/(.*)` and `GET /s3/uploads/(.*)`.  This will create a temporary URL
 that provides access to the uploaded file (which are uploaded privately by default).  The
@@ -75,44 +81,49 @@ The `aws-sdk` must be configured with your account's Access Key and Secret Acces
 
 ##### Boto for Python, in a Django project
 
-    import boto
-    import mimetypes
-    import json
+```python
+import boto
+import mimetypes
+import json
 
-    ...
-    conn = boto.connect_s3('AWS_KEY', 'AWS_SECRET')
+...
 
-    def sign_s3_upload(request):
-        object_name = request.GET['objectName']
-        content_type = mimetypes.guess_type(object_name)[0]
+conn = boto.connect_s3('AWS_KEY', 'AWS_SECRET')
 
-        signed_url = conn.generate_url(
-            300,
-            "PUT",
-            'BUCKET_NAME',
-            'FOLDER_NAME' + object_name,
-            headers = {'Content-Type': content_type, 'x-amz-acl':'public-read'})
+def sign_s3_upload(request):
+    object_name = request.GET['objectName']
+    content_type = mimetypes.guess_type(object_name)[0]
 
-        return HttpResponse(json.dumps({'signedUrl': signed_url}))
+    signed_url = conn.generate_url(
+        300,
+        "PUT",
+        'BUCKET_NAME',
+        'FOLDER_NAME' + object_name,
+        headers = {'Content-Type': content_type, 'x-amz-acl':'public-read'})
+
+    return HttpResponse(json.dumps({'signedUrl': signed_url}))
+```
 
 #### Ruby on Rails, assuming FOG usage
 
-    # Usual fog config, set as an initializer
-    FOG = Fog::Storage.new({
-      :provider              => 'AWS',
-      :aws_access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
-      :aws_secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
-    })
+```ruby
+# Usual fog config, set as an initializer
+FOG = Fog::Storage.new({
+  :provider              => 'AWS',
+  :aws_access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
+  :aws_secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+})
 
-    # In the controller
-    options = {path_style: true}
-    headers = {"Content-Type" => params[:contentType], "x-amz-acl" => "public-read"}
+# In the controller
+options = {path_style: true}
+headers = {"Content-Type" => params[:contentType], "x-amz-acl" => "public-read"}
 
-    @url = FOG.put_object_url(ENV['S3_BUCKET_NAME'], "user_uploads/#{params[:objectName]}", 15.minutes.from_now.to_time.to_i, headers, options)
+@url = FOG.put_object_url(ENV['S3_BUCKET_NAME'], "user_uploads/#{params[:objectName]}", 15.minutes.from_now.to_time.to_i, headers, options)
 
-    respond_to do |format|
-      format.json { render json: {signedUrl: @url} }
-    end
+respond_to do |format|
+  format.json { render json: {signedUrl: @url} }
+end
+```
 
 
 ##### Other Servers

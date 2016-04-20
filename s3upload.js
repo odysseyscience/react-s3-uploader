@@ -6,6 +6,7 @@
 var latinize = require('latinize'),
     unorm = require('unorm');
 
+S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.fileElement = null;
 S3Upload.prototype.files = null;
@@ -88,7 +89,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
             try {
                 result = JSON.parse(xhr.responseText);
             } catch (error) {
-                this.onError('Invalid signing server response JSON: ' + xhr.responseText, file);
+                this.onError('Invalid response from server', file);
                 return false;
             }
             return callback(result);

@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require('react'),
+    ReactDOM = require('react-dom'),
     S3Upload = require('./s3upload.js'),
     objectAssign = require('object-assign');
 
@@ -35,7 +36,7 @@ var ReactS3Uploader = React.createClass({
 
     uploadFile: function() {
         new S3Upload({
-            fileElement: findDOMNode(this),
+            fileElement: ReactDOM.findDOMNode(this),
             signingUrl: this.props.signingUrl,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
@@ -49,7 +50,7 @@ var ReactS3Uploader = React.createClass({
     },
 
     clear: function() {
-        clearInputFile(findDOMNode(this));
+        clearInputFile(ReactDOM.findDOMNode(this));
     },
 
     render: function() {
@@ -57,10 +58,6 @@ var ReactS3Uploader = React.createClass({
     }
 
 });
-
-function findDOMNode(cmp) {
-    return React.findDOMNode ? React.findDOMNode(cmp) : cmp.getDOMNode();
-}
 
 // http://stackoverflow.com/a/24608023/194065
 function clearInputFile(f){

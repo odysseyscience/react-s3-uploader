@@ -1,6 +1,6 @@
 {
   "name": "react-s3-uploader",
-  "version": "2.0.0",
+  "version": "3.0.3",
   "description": "React component that renders a file input and automatically uploads to an S3 bucket",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,7 @@
     "unorm": "1.4.x"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-dom": "*"
   }
 }

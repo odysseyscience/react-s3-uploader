@@ -134,7 +134,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
                 disposition = 'attachment';
             }
         }
-        var normalizedFileName = unorm.nfc(file.name.replace(/\s+/g, "_"));
+        var normalizedFileName = unorm.nfc(file.name.replace(/[^a-zA-Z0-9]/g, "_"));
         var fileName = latinize(normalizedFileName);
         xhr.setRequestHeader('Content-Disposition', disposition + '; filename=' + fileName);
     }

@@ -134,6 +134,10 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
+##### 3.1.0
+
+* Replace unsafe characters (per AWS docs) with underscores [#69]
+
 ##### 3.0.3
 
 * Support signatureVersion option

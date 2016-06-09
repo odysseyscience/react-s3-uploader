@@ -52,6 +52,47 @@ The resulting DOM is essentially:
 When a file is chosen, it will immediately be uploaded to S3.  You can listen for progress (and
 create a status bar, for example) by providing an `onProgress` function to the component.
 
+Using custom function to get signedUrl
+------------
+
+If can use custom function to get provide `signedUrl` direclty to `s3uploader` by adding `getSignedUrl` prop. The function you provide should take `file` and `callback` arguments. Callback should be called with an object containing `signedUrl` key.
+
+```javascript
+import fetch from './ApiClient';
+
+function getSignedUrl(file, callback) {
+  const client = new ApiClient();
+  const params = {
+    objectName: file.name,
+    contentType: file.type
+  };
+
+  client.get(signingUrl, { params })
+  .then(data => {
+    callback(data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
+
+
+<ReactS3Uploader
+  className={uploaderClassName}
+  getSignedUrl={getSignedUrl}
+  accept="image/*"
+  onProgress={onProgress}
+  onError={onError}
+  onFinish={onFinish}
+  uploadRequestHeaders={{
+    'x-amz-acl': 'public-read'
+  }}
+  contentDisposition="auto"
+  server={apiHost}
+/>
+
+```
+
 Server-Side
 -----------
 ### Bundled router

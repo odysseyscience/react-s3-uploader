@@ -8,7 +8,8 @@ var React = require('react'),
 var ReactS3Uploader = React.createClass({
 
     propTypes: {
-        signingUrl: React.PropTypes.string.isRequired,
+        signingUrl: React.PropTypes.string,
+        getSignedUrl: React.PropTypes.func,
         onProgress: React.PropTypes.func,
         onFinish: React.PropTypes.func,
         onError: React.PropTypes.func,
@@ -38,6 +39,7 @@ var ReactS3Uploader = React.createClass({
         new S3Upload({
             fileElement: ReactDOM.findDOMNode(this),
             signingUrl: this.props.signingUrl,
+            getSignedUrl: this.props.getSignedUrl,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,

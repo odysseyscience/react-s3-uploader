@@ -55,10 +55,10 @@ create a status bar, for example) by providing an `onProgress` function to the c
 Using custom function to get signedUrl
 ------------
 
-If can use custom function to get provide `signedUrl` direclty to `s3uploader` by adding `getSignedUrl` prop. The function you provide should take `file` and `callback` arguments. Callback should be called with an object containing `signedUrl` key.
+If can use custom function to get provide `signedUrl` directly to `s3uploader` by adding `getSignedUrl` prop. The function you provide should take `file` and `callback` arguments. Callback should be called with an object containing `signedUrl` key.
 
 ```javascript
-import fetch from './ApiClient';
+import ApiClient from './ApiClient';
 
 function getSignedUrl(file, callback) {
   const client = new ApiClient();
@@ -67,7 +67,7 @@ function getSignedUrl(file, callback) {
     contentType: file.type
   };
 
-  client.get(signingUrl, { params })
+  client.get('/my/signing/server', { params })
   .then(data => {
     callback(data);
   })
@@ -88,7 +88,6 @@ function getSignedUrl(file, callback) {
     'x-amz-acl': 'public-read'
   }}
   contentDisposition="auto"
-  server={apiHost}
 />
 
 ```

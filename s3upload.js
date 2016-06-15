@@ -152,9 +152,10 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
 };
 
 S3Upload.prototype.uploadFile = function(file) {
-    return this.executeOnSignedUrl(file, function(signResult) {
-        return this.uploadToS3(file, signResult);
-    }.bind(this));
+    var uploadToS3Callback = this.uploadToS3.bind(this, file);
+
+    if(this.getSignedUrl) return this.getSignedUrl(file, uploadToS3Callback);
+    return this.executeOnSignedUrl(file, uploadToS3Callback);
 };
 
 S3Upload.prototype.abortUpload = function() {

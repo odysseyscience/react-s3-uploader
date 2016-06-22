@@ -10,6 +10,7 @@ var ReactS3Uploader = React.createClass({
     propTypes: {
         signingUrl: React.PropTypes.string,
         getSignedUrl: React.PropTypes.func,
+        onBeforeUpload: React.PropTypes.func,
         onProgress: React.PropTypes.func,
         onFinish: React.PropTypes.func,
         onError: React.PropTypes.func,
@@ -22,6 +23,10 @@ var ReactS3Uploader = React.createClass({
 
     getDefaultProps: function() {
         return {
+            onBeforeUpload: function(file, next) {
+                console.log('Starting Upload');
+                next(file);
+            },
             onProgress: function(percent, message) {
                 console.log('Upload progress: ' + percent + '% ' + message);
             },
@@ -36,10 +41,12 @@ var ReactS3Uploader = React.createClass({
     },
 
     uploadFile: function() {
+        var files = this.refs.fileInput.files;
         new S3Upload({
-            fileElement: ReactDOM.findDOMNode(this),
+            files: files,
             signingUrl: this.props.signingUrl,
             getSignedUrl: this.props.getSignedUrl,
+            onBeforeUpload: this.props.onBeforeUpload,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,
@@ -56,7 +63,11 @@ var ReactS3Uploader = React.createClass({
     },
 
     render: function() {
-        return React.DOM.input(objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile}));
+        return React.DOM.input(objectAssign({}, this.props, {
+          type: 'file',
+          onChange: this.uploadFile,
+          ref: 'fileInput'
+        }));
     }
 
 });

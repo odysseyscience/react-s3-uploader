@@ -15,6 +15,11 @@ S3Upload.prototype.onFinishS3Put = function(signResult, file) {
     return console.log('base.onFinishS3Put()', signResult.publicUrl);
 };
 
+S3Upload.prototype.onBeforeUpload = function(file, next) {
+    console.log('base.onBeforeUpload()');
+    return next(file);
+};
+
 S3Upload.prototype.onProgress = function(percent, status, file) {
     return console.log('base.onProgress()', percent, status);
 };
@@ -32,16 +37,19 @@ function S3Upload(options) {
             this[option] = options[option];
         }
     }
-    var files = this.fileElement ? this.fileElement.files : this.files || [];
-    this.handleFileSelect(files);
+    this.handleFileSelect(this.files);
 }
 
 S3Upload.prototype.handleFileSelect = function(files) {
     var result = [];
+    var that = this;
+    var next = function (file) {
+        that.onProgress(0, 'Waiting', file);
+        result.push(that.uploadFile(file));
+    }
     for (var i=0; i < files.length; i++) {
         var file = files[i];
-        this.onProgress(0, 'Waiting', file);
-        result.push(this.uploadFile(file));
+        this.onBeforeUpload(file, next)
     }
     return result;
 };

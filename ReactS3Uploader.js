@@ -55,8 +55,23 @@ var ReactS3Uploader = React.createClass({
         clearInputFile(ReactDOM.findDOMNode(this));
     },
 
+    getNewProps() {
+        var temporaryProps = objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile});
+        var newProps = {};
+
+        var invalidProps = Object.keys(ReactS3Uploader.propTypes);
+
+        for(var key in temporaryProps) {
+            if(temporaryProps.hasOwnProperty(key) && invalidProps.indexOf(key) === -1) {
+                newProps[key] = temporaryProps[key];
+            }
+        }
+
+        return newProps;
+    },
+
     render: function() {
-        return React.DOM.input(objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile}));
+        return React.DOM.input(this.getNewProps());
     }
 
 });

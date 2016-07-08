@@ -174,6 +174,10 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
+##### 3.2.1
+
+* Avoid react warning by not passing unnecessary props to Dom.input [#75]
+
 ##### 3.2.0
 
 * Allow custom getSignedUrl() function to be provided [#22]

@@ -35,9 +35,12 @@ function S3Router(options) {
      * to GET an upload.
      */
     function tempRedirect(req, res) {
+        var filename = req.params[0];
+        var contentDisposition = 'attachment; filename=\"' + filename.replace(/,/g, '') + '\"';
         var params = {
             Bucket: S3_BUCKET,
-            Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
+            ResponseContentDisposition: contentDisposition,
+            Key: checkTrailingSlash(getFileKeyDir(req)) + filename
         };
         var s3 = new aws.S3(s3Options);
         s3.getSignedUrl('getObject', params, function(err, url) {

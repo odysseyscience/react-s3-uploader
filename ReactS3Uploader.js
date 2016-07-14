@@ -59,7 +59,7 @@ var ReactS3Uploader = React.createClass({
         return React.DOM.input(this.getInputProps());
     },
 
-    getInputProps() {
+    getInputProps: function() {
         var temporaryProps = objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile});
         var inputProps = {};
 

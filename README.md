@@ -19,7 +19,7 @@ var ReactS3Uploader = require('react-s3-uploader');
 <ReactS3Uploader
     signingUrl="/s3/sign"
     accept="image/*"
-    onStart={this.onUploadStart}
+    preprocess={this.onUploadStart}
     onProgress={this.onUploadProgress}
     onError={this.onUploadError}
     onFinish={this.onUploadFinish}
@@ -49,6 +49,9 @@ The resulting DOM is essentially:
 ```jsx
 <input type="file" onChange={this.uploadFile} />
 ```
+
+The `preprocess(file, next)` prop provides an opportunity to do something before the file upload begins,
+modify the file (scaling the image for example), or abort the upload by not calling `next(file)`.
 
 When a file is chosen, it will immediately be uploaded to S3.  You can listen for progress (and
 create a status bar, for example) by providing an `onProgress` function to the component.

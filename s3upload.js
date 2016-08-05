@@ -16,7 +16,8 @@ S3Upload.prototype.onFinishS3Put = function(signResult, file) {
 };
 
 S3Upload.prototype.preprocess = function(file, next) {
-    return console.log('base.preprocess()', file);
+    console.log('base.preprocess()', file);
+    return next(file);
 };
 
 S3Upload.prototype.onProgress = function(percent, status, file) {

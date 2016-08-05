@@ -178,7 +178,8 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
-##### master
+##### 3.3.0
+* Adding optional preprocess hook supports asynchronous operations such as resizing an image before upload [#79 #72]
 * Fix uglify warning [#77]
 
 ##### 3.2.1

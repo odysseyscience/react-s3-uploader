@@ -15,8 +15,8 @@ S3Upload.prototype.onFinishS3Put = function(signResult, file) {
     return console.log('base.onFinishS3Put()', signResult.publicUrl);
 };
 
-S3Upload.prototype.onStart = function(file, next) {
-    return console.log('base.onUploadStart()', file);
+S3Upload.prototype.preprocess = function(file, next) {
+    return console.log('base.preprocess()', file);
 };
 
 S3Upload.prototype.onProgress = function(percent, status, file) {
@@ -44,9 +44,9 @@ S3Upload.prototype.handleFileSelect = function(files) {
     var result = [];
     for (var i=0; i < files.length; i++) {
         var file = files[i];
-        this.onStart(file, function(){
-          this.onProgress(0, 'Waiting', file);
-          result.push(this.uploadFile(file));
+        this.preprocess(file, function(processedFile){
+          this.onProgress(0, 'Waiting', processedFile);
+          result.push(this.uploadFile(processedFile));
           return result;
         }.bind(this));
     }

@@ -10,7 +10,7 @@ var ReactS3Uploader = React.createClass({
     propTypes: {
         signingUrl: React.PropTypes.string,
         getSignedUrl: React.PropTypes.func,
-        onStart: React.PropTypes.func,
+        preprocess: React.PropTypes.func,
         onProgress: React.PropTypes.func,
         onFinish: React.PropTypes.func,
         onError: React.PropTypes.func,
@@ -26,9 +26,9 @@ var ReactS3Uploader = React.createClass({
 
     getDefaultProps: function() {
         return {
-            onStart: function(file, next) {
-                console.log('Upload start: ' + file.name);
-                next();
+            preprocess: function(file, next) {
+                console.log('Pre-process: ' + file.name);
+                next(file);
             },
             onProgress: function(percent, message) {
                 console.log('Upload progress: ' + percent + '% ' + message);
@@ -48,7 +48,7 @@ var ReactS3Uploader = React.createClass({
             fileElement: ReactDOM.findDOMNode(this),
             signingUrl: this.props.signingUrl,
             getSignedUrl: this.props.getSignedUrl,
-            onStart: this.props.onStart,
+            preprocess: this.props.preprocess,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,

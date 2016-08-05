@@ -15,6 +15,10 @@ S3Upload.prototype.onFinishS3Put = function(signResult, file) {
     return console.log('base.onFinishS3Put()', signResult.publicUrl);
 };
 
+S3Upload.prototype.onStart = function(file, next) {
+    return console.log('base.onUploadStart()', file);
+};
+
 S3Upload.prototype.onProgress = function(percent, status, file) {
     return console.log('base.onProgress()', percent, status);
 };
@@ -40,10 +44,12 @@ S3Upload.prototype.handleFileSelect = function(files) {
     var result = [];
     for (var i=0; i < files.length; i++) {
         var file = files[i];
-        this.onProgress(0, 'Waiting', file);
-        result.push(this.uploadFile(file));
+        this.onStart(file, function(){
+          this.onProgress(0, 'Waiting', file);
+          result.push(this.uploadFile(file));
+          return result;
+        }.bind(this));
     }
-    return result;
 };
 
 S3Upload.prototype.createCORSRequest = function(method, url) {
@@ -67,7 +73,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     var fileName = latinize(normalizedFileName);
     var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(file.type);
     if (this.signingUrlQueryParams) {
-        var signingUrlQueryParams = this.signingUrlQueryParams;
+        var signingUrlQueryParams = typeof this.signingUrlQueryParams === 'function' ? this.signingUrlQueryParams() : this.signingUrlQueryParams;
         Object.keys(signingUrlQueryParams).forEach(function(key) {
             var val = signingUrlQueryParams[key];
             queryString += '&' + key + '=' + val;

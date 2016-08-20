@@ -98,8 +98,10 @@ function getSignedUrl(file, callback) {
 
 Server-Side
 -----------
-### Bundled router
+### Bundled routers
 You can use the Express router that is bundled with this module to answer calls to `/s3/sign`
+
+#### Express
 
 ```js
 app.use('/s3', require('react-s3-uploader/s3router')({
@@ -111,7 +113,19 @@ app.use('/s3', require('react-s3-uploader/s3router')({
 }));
 ```
 
-This also provides another endpoint: `GET /s3/img/(.*)` and `GET /s3/uploads/(.*)`.  This will create a temporary URL
+# Koa 1.0
+
+```js
+import s3router from 'react-s3-uploader/s3router';
+
+app.use(require('react-s3-uploader/s3router')({
+    /* Same as above with these additional options: */
+    endpoint: 'https://rest.s3alternative.com', // optional. useful for s3-compatible APIs
+    prefix: '/v1/s3' // optional. default is /s3. useful if you version your API endpoints
+}));
+```
+
+These also provide another endpoint: `GET /s3/img/(.*)` and `GET /s3/uploads/(.*)`.  This will create a temporary URL
 that provides access to the uploaded file (which are uploaded privately by default).  The
 request is then redirected to the URL, so that the image is served to the client.
 

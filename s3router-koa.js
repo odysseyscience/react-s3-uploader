@@ -86,7 +86,7 @@ export default function S3Router (options) {
 
     const params = {
       Bucket: S3_BUCKET,
-      Key: options.key,
+      Key: checkTrailingSlash(options.key) + filename,
       Expires: 60,
       ContentType: mimeType,
       ACL: options.ACL || 'private'

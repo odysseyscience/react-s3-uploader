@@ -162,10 +162,10 @@ storage = Fog::Storage.new(
 options = {path_style: true}
 headers = {"Content-Type" => params[:contentType], "x-amz-acl" => "public-read"}
 
-@url = storage.put_object_url(ENV['S3_BUCKET_NAME'], "user_uploads/#{params[:objectName]}", 15.minutes.from_now.to_time.to_i, headers, options)
+url = storage.put_object_url(ENV['S3_BUCKET_NAME'], "user_uploads/#{params[:objectName]}", 15.minutes.from_now.to_time.to_i, headers, options)
 
 respond_to do |format|
-  format.json { render json: {signedUrl: @url} }
+  format.json { render json: {signedUrl: url} }
 end
 ```
 

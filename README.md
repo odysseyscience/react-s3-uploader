@@ -19,6 +19,7 @@ var ReactS3Uploader = require('react-s3-uploader');
 <ReactS3Uploader
     signingUrl="/s3/sign"
     accept="image/*"
+    preprocess={this.onUploadStart}
     onProgress={this.onUploadProgress}
     onError={this.onUploadError}
     onFinish={this.onUploadFinish}
@@ -49,8 +50,51 @@ The resulting DOM is essentially:
 <input type="file" onChange={this.uploadFile} />
 ```
 
+The `preprocess(file, next)` prop provides an opportunity to do something before the file upload begins,
+modify the file (scaling the image for example), or abort the upload by not calling `next(file)`.
+
 When a file is chosen, it will immediately be uploaded to S3.  You can listen for progress (and
 create a status bar, for example) by providing an `onProgress` function to the component.
+
+Using custom function to get signedUrl
+------------
+
+If can use custom function to get provide `signedUrl` directly to `s3uploader` by adding `getSignedUrl` prop. The function you provide should take `file` and `callback` arguments. Callback should be called with an object containing `signedUrl` key.
+
+```javascript
+import ApiClient from './ApiClient';
+
+function getSignedUrl(file, callback) {
+  const client = new ApiClient();
+  const params = {
+    objectName: file.name,
+    contentType: file.type
+  };
+
+  client.get('/my/signing/server', { params })
+  .then(data => {
+    callback(data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
+
+
+<ReactS3Uploader
+  className={uploaderClassName}
+  getSignedUrl={getSignedUrl}
+  accept="image/*"
+  onProgress={onProgress}
+  onError={onError}
+  onFinish={onFinish}
+  uploadRequestHeaders={{
+    'x-amz-acl': 'public-read'
+  }}
+  contentDisposition="auto"
+/>
+
+```
 
 Server-Side
 -----------
@@ -108,17 +152,17 @@ def sign_s3_upload(request):
 
 ```ruby
 # Usual fog config, set as an initializer
-FOG = Fog::Storage.new({
-  :provider              => 'AWS',
-  :aws_access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
-  :aws_secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
-})
+storage = Fog::Storage.new(
+  provider: 'AWS',
+  aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+  aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+)
 
 # In the controller
 options = {path_style: true}
 headers = {"Content-Type" => params[:contentType], "x-amz-acl" => "public-read"}
 
-@url = FOG.put_object_url(ENV['S3_BUCKET_NAME'], "user_uploads/#{params[:objectName]}", 15.minutes.from_now.to_time.to_i, headers, options)
+@url = storage.put_object_url(ENV['S3_BUCKET_NAME'], "user_uploads/#{params[:objectName]}", 15.minutes.from_now.to_time.to_i, headers, options)
 
 respond_to do |format|
   format.json { render json: {signedUrl: @url} }
@@ -133,6 +177,22 @@ If you do some work on another server, and would love to contribute documentatio
 
 Changelog (Starting at 1.2.0)
 ------------
+
+##### 3.3.0
+* Adding optional preprocess hook supports asynchronous operations such as resizing an image before upload [#79 #72]
+* Fix uglify warning [#77]
+
+##### 3.2.1
+
+* Avoid react warning by not passing unnecessary props to Dom.input [#75]
+
+##### 3.2.0
+
+* Allow custom getSignedUrl() function to be provided [#22]
+
+##### 3.1.0
+
+* Replace unsafe characters (per AWS docs) with underscores [#69]
 
 ##### 3.0.3
 

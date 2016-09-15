@@ -8,12 +8,17 @@ var React = require('react'),
 var ReactS3Uploader = React.createClass({
 
     propTypes: {
-        signingUrl: React.PropTypes.string.isRequired,
+        signingUrl: React.PropTypes.string,
+        getSignedUrl: React.PropTypes.func,
+        preprocess: React.PropTypes.func,
         onProgress: React.PropTypes.func,
         onFinish: React.PropTypes.func,
         onError: React.PropTypes.func,
         signingUrlHeaders: React.PropTypes.object,
-        signingUrlQueryParams: React.PropTypes.object,
+        signingUrlQueryParams: React.PropTypes.oneOfType([
+          React.PropTypes.object,
+          React.PropTypes.func
+        ]),
         uploadRequestHeaders: React.PropTypes.object,
         contentDisposition: React.PropTypes.string,
         server: React.PropTypes.string
@@ -21,6 +26,10 @@ var ReactS3Uploader = React.createClass({
 
     getDefaultProps: function() {
         return {
+            preprocess: function(file, next) {
+                console.log('Pre-process: ' + file.name);
+                next(file);
+            },
             onProgress: function(percent, message) {
                 console.log('Upload progress: ' + percent + '% ' + message);
             },
@@ -38,6 +47,8 @@ var ReactS3Uploader = React.createClass({
         new S3Upload({
             fileElement: ReactDOM.findDOMNode(this),
             signingUrl: this.props.signingUrl,
+            getSignedUrl: this.props.getSignedUrl,
+            preprocess: this.props.preprocess,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,
@@ -54,7 +65,22 @@ var ReactS3Uploader = React.createClass({
     },
 
     render: function() {
-        return React.DOM.input(objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile}));
+        return React.DOM.input(this.getInputProps());
+    },
+
+    getInputProps: function() {
+        var temporaryProps = objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile});
+        var inputProps = {};
+
+        var invalidProps = Object.keys(ReactS3Uploader.propTypes);
+
+        for(var key in temporaryProps) {
+            if(temporaryProps.hasOwnProperty(key) && invalidProps.indexOf(key) === -1) {
+                inputProps[key] = temporaryProps[key];
+            }
+        }
+
+        return inputProps;
     }
 
 });

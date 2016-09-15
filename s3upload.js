@@ -15,6 +15,11 @@ S3Upload.prototype.onFinishS3Put = function(signResult, file) {
     return console.log('base.onFinishS3Put()', signResult.publicUrl);
 };
 
+S3Upload.prototype.preprocess = function(file, next) {
+    console.log('base.preprocess()', file);
+    return next(file);
+};
+
 S3Upload.prototype.onProgress = function(percent, status, file) {
     return console.log('base.onProgress()', percent, status);
 };
@@ -40,10 +45,12 @@ S3Upload.prototype.handleFileSelect = function(files) {
     var result = [];
     for (var i=0; i < files.length; i++) {
         var file = files[i];
-        this.onProgress(0, 'Waiting', file);
-        result.push(this.uploadFile(file));
+        this.preprocess(file, function(processedFile){
+          this.onProgress(0, 'Waiting', processedFile);
+          result.push(this.uploadFile(processedFile));
+          return result;
+        }.bind(this));
     }
-    return result;
 };
 
 S3Upload.prototype.createCORSRequest = function(method, url) {
@@ -63,11 +70,11 @@ S3Upload.prototype.createCORSRequest = function(method, url) {
 };
 
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
-    var normalizedFileName = unorm.nfc(file.name.replace(/\s+/g, "_"));
+    var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
     var fileName = latinize(normalizedFileName);
     var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(file.type);
     if (this.signingUrlQueryParams) {
-        var signingUrlQueryParams = this.signingUrlQueryParams;
+        var signingUrlQueryParams = typeof this.signingUrlQueryParams === 'function' ? this.signingUrlQueryParams() : this.signingUrlQueryParams;
         Object.keys(signingUrlQueryParams).forEach(function(key) {
             var val = signingUrlQueryParams[key];
             queryString += '&' + key + '=' + val;
@@ -134,7 +141,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
                 disposition = 'attachment';
             }
         }
-        var normalizedFileName = unorm.nfc(file.name.replace(/\s+/g, "_"));
+        var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
         var fileName = latinize(normalizedFileName);
         xhr.setRequestHeader('Content-Disposition', disposition + '; filename=' + fileName);
     }
@@ -150,9 +157,10 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
 };
 
 S3Upload.prototype.uploadFile = function(file) {
-    return this.executeOnSignedUrl(file, function(signResult) {
-        return this.uploadToS3(file, signResult);
-    }.bind(this));
+    var uploadToS3Callback = this.uploadToS3.bind(this, file);
+
+    if(this.getSignedUrl) return this.getSignedUrl(file, uploadToS3Callback);
+    return this.executeOnSignedUrl(file, uploadToS3Callback);
 };
 
 S3Upload.prototype.abortUpload = function() {

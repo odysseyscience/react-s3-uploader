@@ -56,6 +56,9 @@ modify the file (scaling the image for example), or abort the upload by not call
 When a file is chosen, it will immediately be uploaded to S3.  You can listen for progress (and
 create a status bar, for example) by providing an `onProgress` function to the component.
 
+### Extra props
+You can pass any extra props to `<ReactS3Uploader />` and these will be passed down to the final `<input />`. which means that if you give the ReactS3Uploader a className or a name prop the input will have those as well.
+
 Using custom function to get signedUrl
 ------------
 

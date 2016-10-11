@@ -143,7 +143,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         }
         var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
         var fileName = latinize(normalizedFileName);
-        xhr.setRequestHeader('Content-Disposition', disposition + '; filename=' + fileName);
+        xhr.setRequestHeader('Content-Disposition', disposition + '; filename="' + fileName + '"');
     }
     if (this.uploadRequestHeaders) {
         var uploadRequestHeaders = this.uploadRequestHeaders;

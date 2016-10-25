@@ -44,7 +44,7 @@ var ReactS3Uploader = React.createClass({
     },
 
     uploadFile: function() {
-        new S3Upload({
+        this.myUploader = new S3Upload({
             fileElement: ReactDOM.findDOMNode(this),
             signingUrl: this.props.signingUrl,
             getSignedUrl: this.props.getSignedUrl,
@@ -58,6 +58,10 @@ var ReactS3Uploader = React.createClass({
             contentDisposition: this.props.contentDisposition,
             server: this.props.server
         });
+    },
+    
+    abort:function(){
+        this.myUploader.abortUpload();
     },
 
     clear: function() {

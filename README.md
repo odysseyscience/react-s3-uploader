@@ -62,7 +62,7 @@ You can pass any extra props to `<ReactS3Uploader />` and these will be passed d
 Using custom function to get signedUrl
 ------------
 
-If can use custom function to get provide `signedUrl` directly to `s3uploader` by adding `getSignedUrl` prop. The function you provide should take `file` and `callback` arguments. Callback should be called with an object containing `signedUrl` key.
+It is possible to use a custom function to provide `signedUrl` directly to `s3uploader` by adding `getSignedUrl` prop. The function you provide should take `file` and `callback` arguments. Callback should be called with an object containing `signedUrl` key.
 
 ```javascript
 import ApiClient from './ApiClient';

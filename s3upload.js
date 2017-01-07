@@ -8,6 +8,7 @@ var latinize = require('latinize'),
 
 S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
+S3Upload.prototype.signingUrlMethod = 'GET';
 S3Upload.prototype.fileElement = null;
 S3Upload.prototype.files = null;
 
@@ -53,10 +54,12 @@ S3Upload.prototype.handleFileSelect = function(files) {
     }
 };
 
-S3Upload.prototype.createCORSRequest = function(method, url) {
+S3Upload.prototype.createCORSRequest = function(method, url, opts) {
+    var opts = opts || {};
     var xhr = new XMLHttpRequest();
 
     if (xhr.withCredentials != null) {
+        if (opts.withCredentials != null) xhr.withCredentials = opts.withCredentials;
         xhr.open(method, url, true);
     }
     else if (typeof XDomainRequest !== "undefined") {
@@ -80,8 +83,8 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
             queryString += '&' + key + '=' + val;
         });
     }
-    var xhr = this.createCORSRequest('GET',
-        this.server + this.signingUrl + queryString);
+    var xhr = this.createCORSRequest(this.signingUrlMethod,
+        this.server + this.signingUrl + queryString, { withCredentials: this.signingUrlWithCredentials });
     if (this.signingUrlHeaders) {
         var signingUrlHeaders = this.signingUrlHeaders;
         Object.keys(signingUrlHeaders).forEach(function(key) {

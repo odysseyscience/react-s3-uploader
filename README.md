@@ -18,6 +18,7 @@ var ReactS3Uploader = require('react-s3-uploader');
 
 <ReactS3Uploader
     signingUrl="/s3/sign"
+    signingUrlMethod="POST"                 // default "GET"
     accept="image/*"
     preprocess={this.onUploadStart}
     onProgress={this.onUploadProgress}
@@ -25,6 +26,7 @@ var ReactS3Uploader = require('react-s3-uploader');
     onFinish={this.onUploadFinish}
     signingUrlHeaders={{ additional: headers }}
     signingUrlQueryParams={{ additional: query-params }}
+    signingUrlWithCredentials={ true }      // in case when need to pass authentication credentials via CORS
     uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
     contentDisposition="auto"
     server="http://cross-origin-server.com" />
@@ -180,6 +182,11 @@ If you do some work on another server, and would love to contribute documentatio
 
 Changelog (Starting at 1.2.0)
 ------------
+
+##### 3.4.0
+
+* Adding optional prop `signingUrlMethod` (default: `GET`)
+* Adding optional prop `signingUrlWithCredentials`
 
 ##### 3.3.0
 * Adding optional preprocess hook supports asynchronous operations such as resizing an image before upload [#79 #72]

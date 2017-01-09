@@ -36,7 +36,7 @@ var ReactS3Uploader = React.createClass({
                 console.log('Upload progress: ' + percent + '% ' + message);
             },
             onFinish: function(signResult) {
-                console.log("Upload finished: " + signResult.publicUrl)
+                this.props.onFinish(signResult);
             },
             onError: function(message) {
                 console.log("Upload error: " + message);
@@ -46,9 +46,9 @@ var ReactS3Uploader = React.createClass({
         };
     },
 
-    uploadFile: function() {
+    uploadFile: function(event) {
         new S3Upload({
-            fileElement: ReactDOM.findDOMNode(this),
+            fileElement: event.target,
             signingUrl: this.props.signingUrl,
             getSignedUrl: this.props.getSignedUrl,
             preprocess: this.props.preprocess,

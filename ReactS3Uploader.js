@@ -14,11 +14,13 @@ var ReactS3Uploader = React.createClass({
         onProgress: React.PropTypes.func,
         onFinish: React.PropTypes.func,
         onError: React.PropTypes.func,
+        signingUrlMethod: React.PropTypes.string,
         signingUrlHeaders: React.PropTypes.object,
         signingUrlQueryParams: React.PropTypes.oneOfType([
           React.PropTypes.object,
           React.PropTypes.func
         ]),
+        signingUrlWithCredentials: React.PropTypes.bool,
         uploadRequestHeaders: React.PropTypes.object,
         contentDisposition: React.PropTypes.string,
         server: React.PropTypes.string
@@ -39,7 +41,8 @@ var ReactS3Uploader = React.createClass({
             onError: function(message) {
                 console.log("Upload error: " + message);
             },
-            server: ''
+            server: '',
+            signingUrlMethod: 'GET'
         };
     },
 
@@ -52,8 +55,10 @@ var ReactS3Uploader = React.createClass({
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,
+            signingUrlMethod: this.props.signingUrlMethod,
             signingUrlHeaders: this.props.signingUrlHeaders,
             signingUrlQueryParams: this.props.signingUrlQueryParams,
+            signingUrlWithCredentials: this.props.signingUrlWithCredentials,
             uploadRequestHeaders: this.props.uploadRequestHeaders,
             contentDisposition: this.props.contentDisposition,
             server: this.props.server

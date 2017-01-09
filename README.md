@@ -187,6 +187,7 @@ Changelog (Starting at 1.2.0)
 
 * Adding optional prop `signingUrlMethod` (default: `GET`) [#103]
 * Adding optional prop `signingUrlWithCredentials` [#103]
+* Adding `abort` to react component [#96]
 
 ##### 3.3.0
 * Adding optional preprocess hook supports asynchronous operations such as resizing an image before upload [#79 #72]

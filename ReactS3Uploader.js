@@ -64,9 +64,9 @@ var ReactS3Uploader = React.createClass({
             server: this.props.server
         });
     },
-    
-    abort:function(){
-        this.myUploader.abortUpload();
+
+    abort: function() {
+        this.myUploader && this.myUploader.abortUpload();
     },
 
     clear: function() {

@@ -3,8 +3,7 @@
  * https://github.com/flyingsparx/NodeDirectUploader
  */
 
-var latinize = require('latinize'),
-    unorm = require('unorm');
+var latinize = require('latinize');
 
 S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
@@ -29,6 +28,8 @@ S3Upload.prototype.onError = function(status, file) {
     return console.log('base.onError()', status);
 };
 
+function identity(path) { return path; }
+
 function S3Upload(options) {
     if (options == null) {
         options = {};
@@ -37,6 +38,9 @@ function S3Upload(options) {
         if (options.hasOwnProperty(option)) {
             this[option] = options[option];
         }
+    }
+    if (!options.normalisePath) {
+        options.normalisePath = identity;
     }
     var files = this.fileElement ? this.fileElement.files : this.files || [];
     this.handleFileSelect(files);
@@ -75,7 +79,7 @@ S3Upload.prototype.createCORSRequest = function(method, url, opts) {
 };
 
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
-    var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
+    var normalizedFileName = this.options.normalisePath(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
     var fileName = latinize(normalizedFileName);
     var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(file.type);
     if (this.signingUrlQueryParams) {
@@ -146,7 +150,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
                 disposition = 'attachment';
             }
         }
-        var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
+        var normalizedFileName = this.options.normalisePath(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
         var fileName = latinize(normalizedFileName);
         xhr.setRequestHeader('Content-Disposition', disposition + '; filename="' + fileName + '"');
     }

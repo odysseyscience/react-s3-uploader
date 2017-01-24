@@ -150,7 +150,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
                 disposition = 'attachment';
             }
         }
-        var normalizedFileName = this.options.normalisePath(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
+        var normalizedFileName = this.normalisePath(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
         var fileName = latinize(normalizedFileName);
         xhr.setRequestHeader('Content-Disposition', disposition + '; filename="' + fileName + '"');
     }

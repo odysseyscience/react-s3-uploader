@@ -34,13 +34,13 @@ function S3Upload(options) {
     if (options == null) {
         options = {};
     }
+    if (!options.normalisePath) {
+        options.normalisePath = identity;
+    }
     for (var option in options) {
         if (options.hasOwnProperty(option)) {
             this[option] = options[option];
         }
-    }
-    if (!options.normalisePath) {
-        options.normalisePath = identity;
     }
     var files = this.fileElement ? this.fileElement.files : this.files || [];
     this.handleFileSelect(files);

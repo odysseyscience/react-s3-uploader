@@ -3,8 +3,6 @@
  * https://github.com/flyingsparx/NodeDirectUploader
  */
 
-var latinize = require('latinize');
-
 S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.signingUrlMethod = 'GET';
@@ -28,14 +26,13 @@ S3Upload.prototype.onError = function(status, file) {
     return console.log('base.onError()', status);
 };
 
-function identity(path) { return path; }
+S3Upload.prototype.scrubFilename = function(filename) {
+    return filename.replace(/[^\w\d_\-\.]+/ig, '');
+};
 
 function S3Upload(options) {
     if (options == null) {
         options = {};
-    }
-    if (!options.normalisePath) {
-        options.normalisePath = identity;
     }
     for (var option in options) {
         if (options.hasOwnProperty(option)) {
@@ -79,8 +76,7 @@ S3Upload.prototype.createCORSRequest = function(method, url, opts) {
 };
 
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
-    var normalizedFileName = this.normalisePath(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
-    var fileName = latinize(normalizedFileName);
+    var fileName = this.scrubFilename(file.name);
     var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(file.type);
     if (this.signingUrlQueryParams) {
         var signingUrlQueryParams = typeof this.signingUrlQueryParams === 'function' ? this.signingUrlQueryParams() : this.signingUrlQueryParams;
@@ -150,8 +146,8 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
                 disposition = 'attachment';
             }
         }
-        var normalizedFileName = this.normalisePath(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+?\s\\\/\x00-\x1F\x7f]+/ig, '_'));
-        var fileName = latinize(normalizedFileName);
+
+        var fileName = this.scrubFilename(file.name)
         xhr.setRequestHeader('Content-Disposition', disposition + '; filename="' + fileName + '"');
     }
     if (this.uploadRequestHeaders) {

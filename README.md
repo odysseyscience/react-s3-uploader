@@ -6,7 +6,7 @@ Provides a `React` component that automatically uploads to an S3 Bucket.
 Install
 -----------
 ```bash
-$ npm install react-s3-uploader
+$ npm install --save react-s3-uploader
 ```
 From Browser
 ------------
@@ -18,7 +18,7 @@ var ReactS3Uploader = require('react-s3-uploader');
 
 <ReactS3Uploader
     signingUrl="/s3/sign"
-    signingUrlMethod="POST"                 // default "GET"
+    signingUrlMethod="GET"
     accept="image/*"
     preprocess={this.onUploadStart}
     onProgress={this.onUploadProgress}
@@ -27,13 +27,13 @@ var ReactS3Uploader = require('react-s3-uploader');
     signingUrlHeaders={{ additional: headers }}
     signingUrlQueryParams={{ additional: query-params }}
     signingUrlWithCredentials={ true }      // in case when need to pass authentication credentials via CORS
-    uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
+    uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}  // this is the default
     contentDisposition="auto"
-    normalisePath={(path) => unorm.nfc(path)} // BREAKING CHANGE (you need to explicitly specify path normalisation function)
+    scrubFilename={(filename) => filename.replace(/[^\w\d_\-\.]+/ig, '')}
     server="http://cross-origin-server.com" />
 ```
 
-The above example shows all supported `props`.  For `uploadRequestHeaders`, the default ACL is shown.
+The above example shows all supported `props`.
 
 This expects a request to `/s3/sign` to return JSON with a `signedUrl` property that can be used
 to PUT the file in S3.
@@ -46,6 +46,8 @@ all other files.
 `server` is optional and can be used to specify the location of the server which is
 running the ReactS3Uploader server component if it is not the same as the one from
 which the client is served.
+
+Use `scrubFilename` to provide custom filename scrubbing before uploading.  Prior to version 4.0, this library used `unorm` and `latinize` to filter out characters.  Since 4.0, we simply remove all characters that are not alphanumeric, underscores, dashes, or periods.
 
 The resulting DOM is essentially:
 
@@ -183,6 +185,10 @@ If you do some work on another server, and would love to contribute documentatio
 
 Changelog (Starting at 1.2.0)
 ------------
+
+##### 4.0.0
+
+* BREAKING CHANGE: Removed `unorm` and `latinize` dependencies, which were used to scrub file names before uploading.  Now we just remove all characters that are not alphanumeric, underscores, dashes, or periods.  If you need different behavior, please provide a custom `scrubFilename` function in props.
 
 ##### 3.4.0
 

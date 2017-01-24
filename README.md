@@ -29,6 +29,7 @@ var ReactS3Uploader = require('react-s3-uploader');
     signingUrlWithCredentials={ true }      // in case when need to pass authentication credentials via CORS
     uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}
     contentDisposition="auto"
+    normalisePath={(path) => unorm.nfc(path)} // BREAKING CHANGE (you need to explicitly specify path normalisation function)
     server="http://cross-origin-server.com" />
 ```
 

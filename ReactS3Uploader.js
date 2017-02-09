@@ -43,7 +43,10 @@ var ReactS3Uploader = React.createClass({
                 console.log("Upload error: " + message);
             },
             server: '',
-            signingUrlMethod: 'GET'
+            signingUrlMethod: 'GET',
+            scrubFilename: function(filename) {
+                return filename.replace(/[^\w\d_\-\.]+/ig, '');
+            }
         };
     },
 

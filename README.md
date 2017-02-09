@@ -186,6 +186,10 @@ If you do some work on another server, and would love to contribute documentatio
 Changelog (Starting at 1.2.0)
 ------------
 
+##### 4.0.1
+
+* Don't pass `scrubFilename` prop to `<input>`
+
 ##### 4.0.0
 
 * BREAKING CHANGE: Removed `unorm` and `latinize` dependencies, which were used to scrub file names before uploading.  Now we just remove all characters that are not alphanumeric, underscores, dashes, or periods.  If you need different behavior, please provide a custom `scrubFilename` function in props.

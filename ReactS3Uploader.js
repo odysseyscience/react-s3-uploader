@@ -23,7 +23,8 @@ var ReactS3Uploader = React.createClass({
         signingUrlWithCredentials: React.PropTypes.bool,
         uploadRequestHeaders: React.PropTypes.object,
         contentDisposition: React.PropTypes.string,
-        server: React.PropTypes.string
+        server: React.PropTypes.string,
+        scrubFilename: React.PropTypes.func
     },
 
     getDefaultProps: function() {

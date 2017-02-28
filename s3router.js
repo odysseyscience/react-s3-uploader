@@ -27,8 +27,8 @@ function S3Router(options) {
     if (options.signatureVersion) {
         s3Options.signatureVersion = options.signatureVersion;
     }
-    if (options.prefixName === undefined) {
-        options.prefixName = true;
+    if (options.uniquePrefix === undefined) {
+        options.uniquePrefix = true;
     }
 
     var router = express.Router();
@@ -67,7 +67,7 @@ function S3Router(options) {
      * give temporary access to PUT an object in an S3 bucket.
      */
     router.get('/sign', function(req, res) {
-        var filename = (options.prefixName ? uuid.v4() + "_" : "") + req.query.objectName;
+        var filename = (options.uniquePrefix ? uuid.v4() + "_" : "") + req.query.objectName;
         var mimeType = req.query.contentType;
         var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
         // Set any custom headers

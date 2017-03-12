@@ -91,7 +91,8 @@ function S3Router(options) {
             res.json({
                 signedUrl: data,
                 publicUrl: '/s3/uploads/' + filename,
-                filename: filename
+                filename: filename,
+                fileKey: fileKey,
             });
         });
     });

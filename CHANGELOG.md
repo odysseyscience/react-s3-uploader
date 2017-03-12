@@ -1,4 +1,8 @@
 
+##### 4.0.3
+
+* Return `fileKey` in response bundled router sign response
+
 ##### 4.0.2
 
 * Add `uniquePrefix` option to express router support turning off the UUID prefix of filenames.  Default is true, but set to false to preserve original filenames.

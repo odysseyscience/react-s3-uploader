@@ -2,29 +2,31 @@
 
 var React = require('react'),
     ReactDOM = require('react-dom'),
+    PropTypes = require('prop-types'),
+    createReactClass = require('create-react-class'),
     S3Upload = require('./s3upload.js'),
     objectAssign = require('object-assign');
 
-var ReactS3Uploader = React.createClass({
+var ReactS3Uploader = createReactClass({
 
     propTypes: {
-        signingUrl: React.PropTypes.string,
-        getSignedUrl: React.PropTypes.func,
-        preprocess: React.PropTypes.func,
-        onProgress: React.PropTypes.func,
-        onFinish: React.PropTypes.func,
-        onError: React.PropTypes.func,
-        signingUrlMethod: React.PropTypes.string,
-        signingUrlHeaders: React.PropTypes.object,
-        signingUrlQueryParams: React.PropTypes.oneOfType([
-          React.PropTypes.object,
-          React.PropTypes.func
+        signingUrl: PropTypes.string,
+        getSignedUrl: PropTypes.func,
+        preprocess: PropTypes.func,
+        onProgress: PropTypes.func,
+        onFinish: PropTypes.func,
+        onError: PropTypes.func,
+        signingUrlMethod: PropTypes.string,
+        signingUrlHeaders: PropTypes.object,
+        signingUrlQueryParams: PropTypes.oneOfType([
+          PropTypes.object,
+          PropTypes.func
         ]),
-        signingUrlWithCredentials: React.PropTypes.bool,
-        uploadRequestHeaders: React.PropTypes.object,
-        contentDisposition: React.PropTypes.string,
-        server: React.PropTypes.string,
-        scrubFilename: React.PropTypes.func
+        signingUrlWithCredentials: PropTypes.bool,
+        uploadRequestHeaders: PropTypes.object,
+        contentDisposition: PropTypes.string,
+        server: PropTypes.string,
+        scrubFilename: PropTypes.func
     },
 
     getDefaultProps: function() {

@@ -1,4 +1,8 @@
 
+##### 4.1.0
+
+* Using `create-react-class` and `prop-types` to fix deprecation warnings [#116]
+
 ##### 4.0.3
 
 * Return `fileKey` in response bundled router sign response

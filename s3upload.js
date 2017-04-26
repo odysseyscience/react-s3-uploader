@@ -60,10 +60,10 @@ S3Upload.prototype.createCORSRequest = function(method, url, opts) {
     var xhr = new XMLHttpRequest();
 
     if (xhr.withCredentials != null) {
+        xhr.open(method, url, true);
         if (opts.withCredentials != null) {
             xhr.withCredentials = opts.withCredentials;
         }
-        xhr.open(method, url, true);
     }
     else if (typeof XDomainRequest !== "undefined") {
         xhr = new XDomainRequest();

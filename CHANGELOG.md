@@ -1,4 +1,8 @@
 
+##### 4.1.1
+
+* Fix INVALID_STATE_ERR on Safari 5 [#118]
+
 ##### 4.1.0
 
 * Using `create-react-class` and `prop-types` to fix deprecation warnings [#116]

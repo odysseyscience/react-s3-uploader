@@ -88,7 +88,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     var xhr = this.createCORSRequest(this.signingUrlMethod,
         this.server + this.signingUrl + queryString, { withCredentials: this.signingUrlWithCredentials });
     if (this.signingUrlHeaders) {
-        var signingUrlHeaders = this.signingUrlHeaders;
+        var signingUrlHeaders = typeof this.signingUrlHeaders === 'function' ? this.signingUrlHeaders() : this.signingUrlHeaders;
         Object.keys(signingUrlHeaders).forEach(function(key) {
             var val = signingUrlHeaders[key];
             xhr.setRequestHeader(key, val);

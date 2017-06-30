@@ -150,6 +150,13 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         var fileName = this.scrubFilename(file.name)
         xhr.setRequestHeader('Content-Disposition', disposition + '; filename="' + fileName + '"');
     }
+    if (signResult.headers) {
+        var signResultHeaders = signResult.headers
+        Object.keys(signResultHeaders).forEach(function(key) {
+            var val = signResultHeaders[key];
+            xhr.setRequestHeader(key, val);
+        })
+    }
     if (this.uploadRequestHeaders) {
         var uploadRequestHeaders = this.uploadRequestHeaders;
         Object.keys(uploadRequestHeaders).forEach(function(key) {

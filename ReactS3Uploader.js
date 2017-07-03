@@ -17,7 +17,10 @@ var ReactS3Uploader = createReactClass({
         onFinish: PropTypes.func,
         onError: PropTypes.func,
         signingUrlMethod: PropTypes.string,
-        signingUrlHeaders: PropTypes.object,
+        signingUrlHeaders: PropTypes.oneOfType([
+          PropTypes.object,
+          PropTypes.func
+        ]),
         signingUrlQueryParams: PropTypes.oneOfType([
           PropTypes.object,
           PropTypes.func

@@ -26,9 +26,9 @@
   "dependencies": {
     "aws-sdk": "2.x",
     "create-react-class": "^15.5.2",
-    "node-uuid": "1.x",
     "object-assign": "^2.0.0",
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.5.8",
+    "uuid": "^3.1.0"
   },
   "peerDependencies": {
     "react": "*",

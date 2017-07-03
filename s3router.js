@@ -1,5 +1,4 @@
-
- var uuid = require('node-uuid'),
+ var uuidv4 = require('uuid/v4'),
      aws = require('aws-sdk'),
      express = require('express');
 
@@ -67,7 +66,7 @@ function S3Router(options) {
      * give temporary access to PUT an object in an S3 bucket.
      */
     router.get('/sign', function(req, res) {
-        var filename = (options.uniquePrefix ? uuid.v4() + "_" : "") + req.query.objectName;
+        var filename = (options.uniquePrefix ? uuidv4() + "_" : "") + req.query.objectName;
         var mimeType = req.query.contentType;
         var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
         // Set any custom headers

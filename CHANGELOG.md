@@ -1,4 +1,11 @@
 
+##### 4.2.0
+
+* Switch to `uuid` instead of `node-uuid` [#115]
+* Not using `React.DOM.input` [#127]
+* Allow function for `signingUrlHeaders`
+* Support setting headers in `signResult` callback
+
 ##### 4.1.1
 
 * Fix INVALID_STATE_ERR on Safari 5 [#118]

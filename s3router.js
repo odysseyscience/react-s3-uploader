@@ -16,7 +16,7 @@ function S3Router(options) {
         getFileKeyDir = options.getFileKeyDir || function() { return ""; };
 
     if (!S3_BUCKET) {
-        throw new Error("S3_BUCKET is required.");
+        new Error("S3_BUCKET is required.");
     }
 
     var s3Options = {};

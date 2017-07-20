@@ -29,7 +29,7 @@ var ReactS3Uploader = require('react-s3-uploader');
     signingUrlWithCredentials={ true }      // in case when need to pass authentication credentials via CORS
     uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}  // this is the default
     contentDisposition="auto"
-    scrubFilename={(filename) => filename.replace(/[^\w\d_\-\.]+/ig, '')}
+    scrubFilename={(filename) => filename.replace(/[^\w\d_\-.]+/ig, '')}
     server="http://cross-origin-server.com" />
 ```
 

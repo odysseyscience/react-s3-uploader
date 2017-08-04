@@ -18,6 +18,10 @@ S3Upload.prototype.preprocess = function(file, next) {
     return next(file);
 };
 
+S3Upload.prototype.getType = function(file) {
+    return file.type;
+};
+
 S3Upload.prototype.onProgress = function(percent, status, file) {
     return console.log('base.onProgress()', percent, status);
 };
@@ -77,7 +81,7 @@ S3Upload.prototype.createCORSRequest = function(method, url, opts) {
 
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     var fileName = this.scrubFilename(file.name);
-    var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(file.type);
+    var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(this.getType(file));
     if (this.signingUrlQueryParams) {
         var signingUrlQueryParams = typeof this.signingUrlQueryParams === 'function' ? this.signingUrlQueryParams() : this.signingUrlQueryParams;
         Object.keys(signingUrlQueryParams).forEach(function(key) {
@@ -136,11 +140,11 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
             }
         }.bind(this);
     }
-    xhr.setRequestHeader('Content-Type', file.type);
+    xhr.setRequestHeader('Content-Type', this.getType(file));
     if (this.contentDisposition) {
         var disposition = this.contentDisposition;
         if (disposition === 'auto') {
-            if (file.type.substr(0, 6) === 'image/') {
+            if (this.getType(file).substr(0, 6) === 'image/') {
                 disposition = 'inline';
             } else {
                 disposition = 'attachment';

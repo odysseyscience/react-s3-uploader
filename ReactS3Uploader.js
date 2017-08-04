@@ -13,6 +13,7 @@ var ReactS3Uploader = createReactClass({
         signingUrl: PropTypes.string,
         getSignedUrl: PropTypes.func,
         preprocess: PropTypes.func,
+        getType: PropTypes.func,
         onProgress: PropTypes.func,
         onFinish: PropTypes.func,
         onError: PropTypes.func,
@@ -47,6 +48,9 @@ var ReactS3Uploader = createReactClass({
             onError: function(message) {
                 console.log("Upload error: " + message);
             },
+            getType: function(file) {
+                return file.type;
+            },
             server: '',
             signingUrlMethod: 'GET',
             scrubFilename: function(filename) {
@@ -61,6 +65,7 @@ var ReactS3Uploader = createReactClass({
             signingUrl: this.props.signingUrl,
             getSignedUrl: this.props.getSignedUrl,
             preprocess: this.props.preprocess,
+            getType: this.porps.getType,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,

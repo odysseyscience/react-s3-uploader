@@ -65,7 +65,7 @@ var ReactS3Uploader = createReactClass({
             signingUrl: this.props.signingUrl,
             getSignedUrl: this.props.getSignedUrl,
             preprocess: this.props.preprocess,
-            getType: this.porps.getType,
+            getType: this.props.getType,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,

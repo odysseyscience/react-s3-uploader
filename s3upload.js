@@ -6,6 +6,7 @@
 S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.signingUrlMethod = 'GET';
+S3Upload.prototype.signingUrlSuccessResponses = [200, 201];
 S3Upload.prototype.fileElement = null;
 S3Upload.prototype.files = null;
 
@@ -96,7 +97,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     }
     xhr.overrideMimeType && xhr.overrideMimeType('text/plain; charset=x-user-defined');
     xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
+        if (xhr.readyState === 4 && this.signingUrlSuccessResponses.indexOf(xhr.status) >= 0) {
             var result;
             try {
                 result = JSON.parse(xhr.responseText);
@@ -105,7 +106,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
                 return false;
             }
             return callback(result);
-        } else if (xhr.readyState === 4 && xhr.status !== 200) {
+        } else if (xhr.readyState === 4 && this.signingUrlSuccessResponses.indexOf(xhr.status) < 0) {
             return this.onError('Could not contact request signing server. Status = ' + xhr.status, file);
         }
     }.bind(this);

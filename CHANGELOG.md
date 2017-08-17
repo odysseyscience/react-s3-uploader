@@ -1,4 +1,9 @@
 
+##### 4.3.0
+
+* Support middleware in express module with optional second arg
+* Allow 200 or 201 for success on sign request
+
 ##### 4.2.0
 
 * Switch to `uuid` instead of `node-uuid` [#115]

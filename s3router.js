@@ -10,7 +10,11 @@ function checkTrailingSlash(path) {
     return path;
 }
 
-function S3Router(options) {
+function S3Router(options, middleware) {
+
+    if (!middleware) {
+        middleware = [];
+    }
 
     var S3_BUCKET = options.bucket,
         getFileKeyDir = options.getFileKeyDir || function() { return ""; };
@@ -50,14 +54,14 @@ function S3Router(options) {
     /**
      * Image specific route.
      */
-    router.get(/\/img\/(.*)/, function(req, res) {
+    router.get(/\/img\/(.*)/, middleware, function(req, res) {
         return tempRedirect(req, res);
     });
 
     /**
      * Other file type(s) route.
      */
-    router.get(/\/uploads\/(.*)/, function(req, res) {
+    router.get(/\/uploads\/(.*)/, middleware, function(req, res) {
         return tempRedirect(req, res);
     });
 
@@ -65,7 +69,7 @@ function S3Router(options) {
      * Returns an object with `signedUrl` and `publicUrl` properties that
      * give temporary access to PUT an object in an S3 bucket.
      */
-    router.get('/sign', function(req, res) {
+    router.get('/sign', middleware, function(req, res) {
         var filename = (options.uniquePrefix ? uuidv4() + "_" : "") + req.query.objectName;
         var mimeType = req.query.contentType;
         var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;

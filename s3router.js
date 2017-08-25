@@ -23,13 +23,21 @@ function S3Router(options, middleware) {
         throw new Error("S3_BUCKET is required.");
     }
 
-    var s3Options = {};
-    if (options.region) {
-      s3Options.region = options.region;
-    }
-    if (options.signatureVersion) {
+    var getS3 = options.getS3;
+    if (!getS3) {
+      var s3Options = {};
+      if (options.region) {
+        s3Options.region = options.region;
+      }
+      if (options.signatureVersion) {
         s3Options.signatureVersion = options.signatureVersion;
+      }
+
+      getS3 = function() {
+        return new aws.S3(s3Options);
+      };
     }
+
     if (options.uniquePrefix === undefined) {
         options.uniquePrefix = true;
     }
@@ -45,7 +53,7 @@ function S3Router(options, middleware) {
             Bucket: S3_BUCKET,
             Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
         };
-        var s3 = new aws.S3(s3Options);
+        var s3 = getS3();
         s3.getSignedUrl('getObject', params, function(err, url) {
             res.redirect(url);
         });
@@ -78,7 +86,7 @@ function S3Router(options, middleware) {
           res.set(options.headers);
         }
 
-        var s3 = new aws.S3(s3Options);
+        var s3 = getS3();
         var params = {
             Bucket: S3_BUCKET,
             Key: fileKey,

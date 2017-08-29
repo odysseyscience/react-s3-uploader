@@ -20,6 +20,7 @@ var ReactS3Uploader = require('react-s3-uploader');
     signingUrl="/s3/sign"
     signingUrlMethod="GET"
     accept="image/*"
+    s3path="/uploads/"
     preprocess={this.onUploadStart}
     onProgress={this.onUploadProgress}
     onError={this.onUploadError}

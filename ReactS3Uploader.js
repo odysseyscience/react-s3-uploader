@@ -29,7 +29,8 @@ var ReactS3Uploader = createReactClass({
         uploadRequestHeaders: PropTypes.object,
         contentDisposition: PropTypes.string,
         server: PropTypes.string,
-        scrubFilename: PropTypes.func
+        scrubFilename: PropTypes.func,
+        s3path: PropTypes.string
     },
 
     getDefaultProps: function() {
@@ -51,7 +52,8 @@ var ReactS3Uploader = createReactClass({
             signingUrlMethod: 'GET',
             scrubFilename: function(filename) {
                 return filename.replace(/[^\w\d_\-\.]+/ig, '');
-            }
+            },
+            s3path: ''
         };
     },
 
@@ -71,7 +73,8 @@ var ReactS3Uploader = createReactClass({
             uploadRequestHeaders: this.props.uploadRequestHeaders,
             contentDisposition: this.props.contentDisposition,
             server: this.props.server,
-            scrubFilename: this.props.scrubFilename
+            scrubFilename: this.props.scrubFilename,
+            s3path: this.props.s3path
         });
     },
 

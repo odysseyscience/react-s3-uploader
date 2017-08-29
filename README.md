@@ -124,6 +124,9 @@ This also provides another endpoint: `GET /s3/img/(.*)` and `GET /s3/uploads/(.*
 that provides access to the uploaded file (which are uploaded privately by default).  The
 request is then redirected to the URL, so that the image is served to the client.
 
+If you need to use pass more than region and signatureVersion to S3 instead use the `getS3` param. `getS3` accepts a
+function that returns a new AWS.S3 instance. This is also useful if you want to mock S3 for testing purposes.
+
 **To use this you will need to include the [express module](https://www.npmjs.com/package/express) in your package.json dependencies.**
 
 #### Access/Secret Keys

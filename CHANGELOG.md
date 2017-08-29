@@ -1,4 +1,9 @@
 
+##### 4.4.0
+
+* Support `getS3` function in bundled router options [#139]
+* Support `s3Path` string prefix prop [#140]
+
 ##### 4.3.0
 
 * Support middleware in express module with optional second arg

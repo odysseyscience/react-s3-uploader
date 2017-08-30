@@ -1,4 +1,8 @@
 
+##### 4.5.0
+
+* Removed `peerDependencies` on react and react-dom [#136]
+
 ##### 4.4.0
 
 * Support `getS3` function in bundled router options [#139]

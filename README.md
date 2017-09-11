@@ -182,6 +182,53 @@ respond_to do |format|
 end
 ```
 
+#### [Micro](https://github.com/zeit/micro)
+
+```javascript
+const aws = require('aws-sdk')
+const uuidv4 = require('uuid/v4')
+const { createError } = require('micro')
+
+const options = {
+  bucket: 'S3_BUCKET_NAME',
+  region: 'S3_REGION',
+  signatureVersion: 'v4',
+  ACL: 'public-read'
+}
+
+const s3 = new aws.S3(options)
+
+module.exports = (req, res) => {
+  const originalFilename = req.query.objectName
+
+  // custom filename using random uuid + file extension
+  const fileExtension = originalFilename.split('.').pop()
+  const filename = `${uuidv4()}.${fileExtension}`
+
+  const params = {
+    Bucket: options.bucket,
+    Key: filename,
+    Expires: 60,
+    ContentType: req.query.contentType,
+    ACL: options.ACL
+  }
+
+  const signedUrl = s3.getSignedUrl('putObject', params)
+
+  if (signedUrl) {
+    // you may also simply return the signed url, i.e. `return { signedUrl }`
+    return {
+      signedUrl,
+      filename,
+      originalFilename,
+      publicUrl: signedUrl.split('?').shift()
+    }
+  } else {
+    throw createError(500, 'Cannot create S3 signed URL')
+  }
+}
+```
+
 
 ##### Other Servers
 

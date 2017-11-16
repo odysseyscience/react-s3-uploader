@@ -30,7 +30,8 @@ var ReactS3Uploader = createReactClass({
         contentDisposition: PropTypes.string,
         server: PropTypes.string,
         scrubFilename: PropTypes.func,
-        s3path: PropTypes.string
+        s3path: PropTypes.string,
+        inputRef: PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -53,7 +54,8 @@ var ReactS3Uploader = createReactClass({
             scrubFilename: function(filename) {
                 return filename.replace(/[^\w\d_\-\.]+/ig, '');
             },
-            s3path: ''
+            s3path: '',
+            inputRef: function(el){}
         };
     },
 
@@ -74,7 +76,7 @@ var ReactS3Uploader = createReactClass({
             contentDisposition: this.props.contentDisposition,
             server: this.props.server,
             scrubFilename: this.props.scrubFilename,
-            s3path: this.props.s3path
+            s3path: this.props.s3path,
         });
     },
 
@@ -91,15 +93,22 @@ var ReactS3Uploader = createReactClass({
     },
 
     getInputProps: function() {
-        var temporaryProps = objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile});
+        // declare ref beforehand and filter out
+        // `inputRef` by `ReactS3Uploader.propTypes`
+        var additional = {
+          type: 'file',
+          onChange: this.uploadFile,
+          ref: this.props.innerRef
+        }
+        var temporaryProps = objectAssign({}, this.props, additional);
         var inputProps = {};
 
         var invalidProps = Object.keys(ReactS3Uploader.propTypes);
 
         for(var key in temporaryProps) {
-            if(temporaryProps.hasOwnProperty(key) && invalidProps.indexOf(key) === -1) {
-                inputProps[key] = temporaryProps[key];
-            }
+          if(temporaryProps.hasOwnProperty(key) && invalidProps.indexOf(key) === -1) {
+            inputProps[key] = temporaryProps[key];
+          }
         }
 
         return inputProps;

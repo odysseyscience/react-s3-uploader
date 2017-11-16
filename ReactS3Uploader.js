@@ -30,7 +30,8 @@ var ReactS3Uploader = createReactClass({
         contentDisposition: PropTypes.string,
         server: PropTypes.string,
         scrubFilename: PropTypes.func,
-        s3path: PropTypes.string
+        s3path: PropTypes.string,
+        inputRef: PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -91,7 +92,14 @@ var ReactS3Uploader = createReactClass({
     },
 
     getInputProps: function() {
-        var temporaryProps = objectAssign({}, this.props, {type: 'file', onChange: this.uploadFile});
+        // declare ref beforehand and filter out
+        // `inputRef` by `ReactS3Uploader.propTypes`
+        var additional = {
+            type: 'file',
+            onChange: this.uploadFile,
+            ref: this.props.inputRef
+        };
+        var temporaryProps = objectAssign({}, this.props, additional);
         var inputProps = {};
 
         var invalidProps = Object.keys(ReactS3Uploader.propTypes);

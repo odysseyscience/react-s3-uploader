@@ -1,4 +1,8 @@
 
+##### 4.5.1
+
+* Add `inputRef` prop [#153]
+
 ##### 4.5.0
 
 * Removed `peerDependencies` on react and react-dom [#136]

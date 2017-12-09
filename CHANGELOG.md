@@ -1,4 +1,8 @@
 
+##### 4.6.0
+
+* Add `autoUpload` prop, which can be set to `false` to disable automatic upload [#95] [#107] [#155]
+
 ##### 4.5.1
 
 * Add `inputRef` prop [#153]

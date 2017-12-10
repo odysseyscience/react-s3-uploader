@@ -78,7 +78,7 @@ function S3Router(options, middleware) {
      * give temporary access to PUT an object in an S3 bucket.
      */
     router.get('/sign', middleware, function(req, res) {
-        var filename = (options.uniquePrefix ? uuidv4() + "_" : "") + req.query.objectName;
+        var filename = options.uniqueFilename ? uuidv4() : ((options.uniquePrefix ? uuidv4() + "_" : "") + req.query.objectName);
         var mimeType = req.query.contentType;
         var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
         // Set any custom headers
@@ -99,12 +99,18 @@ function S3Router(options, middleware) {
                 console.log(err);
                 return res.send(500, "Cannot create S3 signed URL");
             }
-            res.json({
+            var json = {
                 signedUrl: data,
                 publicUrl: '/s3/uploads/' + filename,
                 filename: filename,
                 fileKey: fileKey,
-            });
+            };
+            if (typeof options.getWebsiteUrl === 'function') {
+                json.websiteUrl = options.getWebsiteUrl(fileKey);
+            } else if (options.getWebsiteUrl === true && options.region) {
+                json.websiteUrl = 'http://' + S3_BUCKET + '.s3-website.' + options.region + '.amazonaws.com/' + fileKey;
+            }
+            res.json(json);
         });
     });
 

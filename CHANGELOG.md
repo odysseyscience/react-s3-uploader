@@ -1,4 +1,8 @@
 
+##### 4.6.1
+
+* Fix `s3path` and `uniquePrefix` ordering when applied together [#156]
+
 ##### 4.6.0
 
 * Add `autoUpload` prop, which can be set to `false` to disable automatic upload [#95] [#107] [#155]

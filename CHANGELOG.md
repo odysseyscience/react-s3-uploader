@@ -1,4 +1,8 @@
 
+##### 4.6.2
+
+* Fix `undefined` in file path when not providing `s3path` prop [#160]
+
 ##### 4.6.1
 
 * Fix `s3path` and `uniquePrefix` ordering when applied together [#156]

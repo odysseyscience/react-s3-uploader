@@ -78,7 +78,7 @@ function S3Router(options, middleware) {
      * give temporary access to PUT an object in an S3 bucket.
      */
     router.get('/sign', middleware, function(req, res) {
-        var filename = req.query.path + (options.uniquePrefix ? uuidv4() + "_" : "") + req.query.objectName;
+        var filename = (req.query.path || '') + (options.uniquePrefix ? uuidv4() + "_" : "") + req.query.objectName;
         var mimeType = req.query.contentType;
         var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
         // Set any custom headers

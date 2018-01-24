@@ -32,7 +32,8 @@ var ReactS3Uploader = createReactClass({
         scrubFilename: PropTypes.func,
         s3path: PropTypes.string,
         inputRef: PropTypes.func,
-        autoUpload: PropTypes.bool
+        autoUpload: PropTypes.bool,
+        onChange: PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -103,6 +104,10 @@ var ReactS3Uploader = createReactClass({
 
         if ( this.props.autoUpload ) {
             additional.onChange = this.uploadFile;
+        } else {
+            if(this.props.onChange) {
+              additional.onChange = this.props.onChange(this);
+            }
         }
         
         var temporaryProps = objectAssign({}, this.props, additional);

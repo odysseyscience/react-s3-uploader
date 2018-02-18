@@ -1,4 +1,16 @@
 
+##### 4.6.2
+
+* Fix `undefined` in file path when not providing `s3path` prop [#160]
+
+##### 4.6.1
+
+* Fix `s3path` and `uniquePrefix` ordering when applied together [#156]
+
+##### 4.6.0
+
+* Add `autoUpload` prop, which can be set to `false` to disable automatic upload [#95] [#107] [#155]
+
 ##### 4.5.1
 
 * Add `inputRef` prop [#153]

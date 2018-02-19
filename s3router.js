@@ -79,6 +79,11 @@ function S3Router(options, middleware) {
      */
     router.get('/sign', middleware, function(req, res) {
         var filename = (req.query.path || '') + (options.uniquePrefix ? uuidv4() + "_" : "") + req.query.objectName;
+        if (options.uniquePrefixOnly) {
+          var fileExtension = req.query.objectName.slice((req.query.objectName.lastIndexOf('.') - 1 >>> 0) + 2);
+          var suffix = fileExtension ? `.${fileExtension}` : '';
+          filename = (req.query.path || '') + uuidv4() + suffix;
+        }
         var mimeType = req.query.contentType;
         var fileKey = checkTrailingSlash(getFileKeyDir(req)) + filename;
         // Set any custom headers

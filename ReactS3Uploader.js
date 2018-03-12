@@ -13,6 +13,7 @@ var ReactS3Uploader = createReactClass({
         signingUrl: PropTypes.string,
         getSignedUrl: PropTypes.func,
         preprocess: PropTypes.func,
+        onSignedUrl: PropTypes.func,
         onProgress: PropTypes.func,
         onFinish: PropTypes.func,
         onError: PropTypes.func,
@@ -41,6 +42,9 @@ var ReactS3Uploader = createReactClass({
                 console.log('Pre-process: ' + file.name);
                 next(file);
             },
+            onSignedUrl: function( signingServerResponse ) {
+                console.log('Signing server response', signingServerResponse);
+            },
             onProgress: function(percent, message) {
                 console.log('Upload progress: ' + percent + '% ' + message);
             },
@@ -66,6 +70,7 @@ var ReactS3Uploader = createReactClass({
             signingUrl: this.props.signingUrl,
             getSignedUrl: this.props.getSignedUrl,
             preprocess: this.props.preprocess,
+            onSignedUrl: this.props.onSignedUrl,
             onProgress: this.props.onProgress,
             onFinishS3Put: this.props.onFinish,
             onError: this.props.onError,

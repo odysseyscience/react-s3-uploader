@@ -104,6 +104,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
             var result;
             try {
                 result = JSON.parse(xhr.responseText);
+                this.onSignedUrl( result );
             } catch (error) {
                 this.onError('Invalid response from server', file);
                 return false;

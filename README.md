@@ -22,6 +22,7 @@ var ReactS3Uploader = require('react-s3-uploader');
     accept="image/*"
     s3path="/uploads/"
     preprocess={this.onUploadStart}
+    onSignedUrl={this.onSignedUrl}
     onProgress={this.onUploadProgress}
     onError={this.onUploadError}
     onFinish={this.onUploadFinish}

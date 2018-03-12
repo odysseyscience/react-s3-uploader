@@ -43,7 +43,7 @@ var ReactS3Uploader = createReactClass({
                 next(file);
             },
             onSignedUrl: function( signingServerResponse ) {
-                console.log('Signing server response', signingServerResponse);
+                console.log('Signing server response: ', signingServerResponse);
             },
             onProgress: function(percent, message) {
                 console.log('Upload progress: ' + percent + '% ' + message);

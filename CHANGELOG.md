@@ -1,4 +1,8 @@
 
+##### 4.7.0
+
+* Add an `onSignedUrl` lifecycle hook [#170]
+
 ##### 4.6.2
 
 * Fix `undefined` in file path when not providing `s3path` prop [#160]

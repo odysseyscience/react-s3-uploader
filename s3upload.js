@@ -27,6 +27,8 @@ S3Upload.prototype.onError = function(status, file) {
     return console.log('base.onError()', status);
 };
 
+S3Upload.prototype.onSignedUrl = function(result) {};
+
 S3Upload.prototype.scrubFilename = function(filename) {
     return filename.replace(/[^\w\d_\-\.]+/ig, '');
 };

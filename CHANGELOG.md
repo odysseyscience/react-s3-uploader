@@ -1,4 +1,8 @@
 
+##### 4.8.0
+
+* Allow 201 response code from PUT [#174]
+
 ##### 4.7.0
 
 * Add an `onSignedUrl` lifecycle hook [#170]

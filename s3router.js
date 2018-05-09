@@ -53,7 +53,7 @@ function S3Router(options, middleware) {
             Bucket: S3_BUCKET,
             Key: checkTrailingSlash(getFileKeyDir(req)) + req.params[0]
         };
-        var s3 = getS3();
+        var s3 = getS3(req);
         s3.getSignedUrl('getObject', params, function(err, url) {
             res.redirect(url);
         });
@@ -86,7 +86,7 @@ function S3Router(options, middleware) {
           res.set(options.headers);
         }
 
-        var s3 = getS3();
+        var s3 = getS3(req);
         var params = {
             Bucket: S3_BUCKET,
             Key: fileKey,

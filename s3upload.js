@@ -2,6 +2,7 @@
  * Taken, CommonJS-ified, and heavily modified from:
  * https://github.com/flyingsparx/NodeDirectUploader
  */
+const JSZip = require('jszip');
 
 S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
@@ -15,8 +16,10 @@ S3Upload.prototype.onFinishS3Put = function(signResult, file) {
 };
 
 S3Upload.prototype.preprocess = function(file, next) {
+    var zip = new JSZip();
     console.log('base.preprocess()', file);
-    return next(file);
+    zipped = zip.file(file.name, file)
+    return next(zipped);
 };
 
 S3Upload.prototype.onProgress = function(percent, status, file) {

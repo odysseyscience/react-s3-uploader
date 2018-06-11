@@ -16,10 +16,10 @@ S3Upload.prototype.onFinishS3Put = function(signResult, file) {
 };
 
 S3Upload.prototype.preprocess = function(file, next) {
+    var zip = new JSZip();
     console.log('base.preprocess()', file);
-    console.log(file);
-    consoel.log(next);
-    return next(file);
+    zipped = zip.file(file.name, file)
+    return next(zipped);
 };
 
 S3Upload.prototype.onProgress = function(percent, status, file) {

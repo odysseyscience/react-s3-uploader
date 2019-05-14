@@ -49,11 +49,7 @@ function S3Upload(options) {
 }
 
 function getFileMimeType(file) {
-    if (file.type) {
-        return file.type;
-    } else {
-        return mime.lookup(file.name);
-    }
+    return mime.lookup(file.name);
 }
 
 S3Upload.prototype.handleFileSelect = function(files) {

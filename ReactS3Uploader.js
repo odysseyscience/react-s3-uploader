@@ -51,7 +51,7 @@ var ReactS3Uploader = createReactClass({
             onFinish: function(signResult) {
                 console.log("Upload finished: " + signResult.publicUrl)
             },
-            onError: function(message) {
+            onError: function(message, file) {
                 console.log("Upload error: " + message);
             },
             server: '',

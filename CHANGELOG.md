@@ -1,4 +1,8 @@
 
+##### 4.9.1
+
+* Added typescript definitions
+
 ##### 4.9.0
 
 * Better error messaging [#207]

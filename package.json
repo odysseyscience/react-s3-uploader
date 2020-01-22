@@ -1,6 +1,6 @@
 {
   "name": "react-s3-uploader",
-  "version": "4.9.1",
+  "version": "4.9.2",
   "description": "React component that renders a file input and automatically uploads to an S3 bucket",
   "main": "index.js",
   "scripts": {

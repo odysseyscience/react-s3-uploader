@@ -1,6 +1,13 @@
 declare module 'react-s3-uploader' {
   import { Component } from 'react';
 
+  export interface S3Response {
+    signedUrl: string;
+    publicUrl: string;
+    filename: string;
+    fileKey: string;
+  }
+
   export interface ReactS3UploaderProps {
     signingUrl?: string;
     signingUrlMethod?: 'GET' | 'POST';
@@ -8,10 +15,10 @@ declare module 'react-s3-uploader' {
     accept?: string;
     s3path?: string;
     preprocess?: (file: File, next: (file: File) => any) => any;
-    onSignedUrl?: (response: object) => any;
+    onSignedUrl?: (response: S3Response) => any;
     onProgress?: (percent: number, status: string, file: File) => any;
     onError?: (message: string) => any;
-    onFinish?: (result: object) => any;
+    onFinish?: (result: S3Response, file: File) => any;
     signingUrlHeaders?: {
       additional: object;
     };

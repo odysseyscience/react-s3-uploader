@@ -11,14 +11,14 @@ declare module 'react-s3-uploader' {
   export interface ReactS3UploaderProps {
     signingUrl?: string;
     signingUrlMethod?: 'GET' | 'POST';
-    getSignedUrl?: (file: File, callback: (params: { signedUrl: string; }) => any) => any;
+    getSignedUrl?: (file: File, callback: (params: S3Response) => void) => void;
     accept?: string;
     s3path?: string;
-    preprocess?: (file: File, next: (file: File) => any) => any;
-    onSignedUrl?: (response: S3Response) => any;
-    onProgress?: (percent: number, status: string, file: File) => any;
-    onError?: (message: string) => any;
-    onFinish?: (result: S3Response, file: File) => any;
+    preprocess?: (file: File, next: (file: File) => void) => void;
+    onSignedUrl?: (response: S3Response) => void;
+    onProgress?: (percent: number, status: string, file: File) => void;
+    onError?: (message: string) => void;
+    onFinish?: (result: S3Response, file: File) => void;
     signingUrlHeaders?: {
       additional: object;
     };

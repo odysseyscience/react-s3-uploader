@@ -1,4 +1,8 @@
 
+##### 4.9.3
+
+* Add missing typescript definitions [#216]
+
 ##### 4.9.2
 
 * Added typescript definitions

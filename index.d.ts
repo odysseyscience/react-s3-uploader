@@ -31,6 +31,7 @@ declare module 'react-s3-uploader' {
     server?: string;
     inputRef?: (ref: HTMLInputElement) => any;
     autoUpload?: boolean;
+    scrubFilename?: (filename: string) => string;
     [key: string]: any;
   }
 
@@ -43,7 +44,8 @@ declare module 'react-s3-uploader/s3upload' {
   import { ReactS3UploaderProps } from 'react-s3-uploader';
 
   class S3Upload {
-    constructor(options: ReactS3UploaderProps)
+    constructor(options: ReactS3UploaderProps);
+    uploadFile: (file: File) => Promise<S3Response>;
   }
 
   export default S3Upload;

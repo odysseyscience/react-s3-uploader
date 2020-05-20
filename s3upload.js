@@ -195,8 +195,6 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
             var val = uploadRequestHeaders[key];
             xhr.setRequestHeader(key, val);
         });
-    } else {
-        xhr.setRequestHeader('x-amz-acl', 'public-read');
     }
     this.httprequest = xhr;
     return xhr.send(file);

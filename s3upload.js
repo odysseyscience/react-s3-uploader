@@ -198,7 +198,8 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
     } else {
         xhr.setRequestHeader('x-amz-acl', 'public-read');
     }
-    this.httprequest = xhr;
+    this.httpRequests = this.httpRequests || [];
+    this.httpRequests[file.name] = xhr;
     return xhr.send(file);
 };
 
@@ -209,8 +210,9 @@ S3Upload.prototype.uploadFile = function(file) {
     return this.executeOnSignedUrl(file, uploadToS3Callback);
 };
 
-S3Upload.prototype.abortUpload = function() {
-    this.httprequest && this.httprequest.abort();
+S3Upload.prototype.abortUpload = function(file) {
+    var httpRequest = this.httpRequests[file.name];
+    httpRequest && httpRequest.abort();
 };
 
 

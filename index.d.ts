@@ -41,7 +41,7 @@ declare module 'react-s3-uploader' {
 }
 
 declare module 'react-s3-uploader/s3upload' {
-  import { ReactS3UploaderProps } from 'react-s3-uploader';
+  import { ReactS3UploaderProps, S3Response } from 'react-s3-uploader';
 
   class S3Upload {
     constructor(options: ReactS3UploaderProps);

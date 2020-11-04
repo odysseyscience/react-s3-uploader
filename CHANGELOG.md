@@ -1,4 +1,10 @@
 
+##### 5.0.0
+
+* Update several dependencies, moving some to `optional` and `dev`
+* Update many typescript definitions
+* Added `mime-types` fallback when browser doesn't provide `file.type` [#223]
+
 ##### 4.9.3
 
 * Add missing typescript definitions [#216]

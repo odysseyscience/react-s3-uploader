@@ -175,13 +175,15 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         }.bind(this);
     }
 
-    var headers = {};
-    headers['content-type'] = getFileMimeType(file);
-  
+    var fileType = getFileMimeType(file);
+    var headers = {
+      'content-type': fileType
+    };
+
     if (this.contentDisposition) {
         var disposition = this.contentDisposition;
         if (disposition === 'auto') {
-            if (getFileMimeType(file).substr(0, 6) === 'image/') {
+            if (fileType.substr(0, 6) === 'image/') {
                 disposition = 'inline';
             } else {
                 disposition = 'attachment';

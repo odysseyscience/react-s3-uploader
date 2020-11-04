@@ -100,7 +100,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
         queryString += '&path=' + encodeURIComponent(this.s3path);
     }
     if (this.signingUrlQueryParams) {
-        var signingUrlQueryParams = typeof this.signingUrlQueryParams === 'function' ? this.signingUrlQueryParams() : this.signingUrlQueryParams;
+        var signingUrlQueryParams = typeof this.signingUrlQueryParams === 'function' ? this.signingUrlQueryParams(file) : this.signingUrlQueryParams;
         Object.keys(signingUrlQueryParams).forEach(function(key) {
             var val = signingUrlQueryParams[key];
             queryString += '&' + key + '=' + val;
@@ -109,7 +109,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     var xhr = this.createCORSRequest(this.signingUrlMethod,
       this.server + this.signingUrl + queryString, { withCredentials: this.signingUrlWithCredentials });
     if (this.signingUrlHeaders) {
-        var signingUrlHeaders = typeof this.signingUrlHeaders === 'function' ? this.signingUrlHeaders() : this.signingUrlHeaders;
+        var signingUrlHeaders = typeof this.signingUrlHeaders === 'function' ? this.signingUrlHeaders(file) : this.signingUrlHeaders;
         Object.keys(signingUrlHeaders).forEach(function(key) {
             var val = signingUrlHeaders[key];
             xhr.setRequestHeader(key, val);

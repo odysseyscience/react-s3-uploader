@@ -1,6 +1,6 @@
 {
   "name": "react-s3-uploader",
-  "version": "4.8.0",
+  "version": "4.9.3",
   "description": "React component that renders a file input and automatically uploads to an S3 bucket",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git@github.com:odysseyscience/react-s3-uploader.git"
   },
+  "types": "index.d.ts",
   "keywords": [
     "react",
     "upload",
@@ -24,11 +25,13 @@
   },
   "homepage": "https://github.com/odysseyscience/react-s3-uploader",
   "dependencies": {
+    "@types/react": "*",
     "aws-sdk": "2.x",
     "create-react-class": "^15.5.2",
     "mime-types": "^2.1.24",
     "object-assign": "^2.0.0",
     "prop-types": "^15.5.8",
+    "typescript": "^3.7.5",
     "uuid": "^3.1.0"
   }
 }

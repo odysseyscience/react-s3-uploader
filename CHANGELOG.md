@@ -1,4 +1,17 @@
 
+##### 4.9.3
+
+* Add missing typescript definitions [#216]
+
+##### 4.9.2
+
+* Added typescript definitions
+
+##### 4.9.0
+
+* Better error messaging [#207]
+* Configurable Expires time [#208]
+
 ##### 4.8.0
 
 * Allow 201 response code from PUT [#174]

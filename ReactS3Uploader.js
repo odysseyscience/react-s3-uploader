@@ -32,27 +32,30 @@ var ReactS3Uploader = createReactClass({
         server: PropTypes.string,
         scrubFilename: PropTypes.func,
         s3path: PropTypes.string,
-        inputRef: PropTypes.func,
+        inputRef: PropTypes.oneOfType([
+          PropTypes.object,
+          PropTypes.func
+        ]),
         autoUpload: PropTypes.bool
     },
 
     getDefaultProps: function() {
         return {
             preprocess: function(file, next) {
-                console.log('Pre-process: ' + file.name);
+                console.log('Pre-process: ',file.name);
                 next(file);
             },
             onSignedUrl: function( signingServerResponse ) {
                 console.log('Signing server response: ', signingServerResponse);
             },
             onProgress: function(percent, message, file) {
-                console.log('Upload progress: ' + percent + '% ' + message);
+                console.log('Upload progress: ',`${percent} % ${message}`);
             },
             onFinish: function(signResult) {
-                console.log("Upload finished: " + signResult.publicUrl)
+                console.log("Upload finished: ",signResult.publicUrl)
             },
             onError: function(message) {
-                console.log("Upload error: " + message);
+                console.log("Upload error: ",message);
             },
             server: '',
             signingUrlMethod: 'GET',

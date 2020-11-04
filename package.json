@@ -28,6 +28,7 @@
     "@types/react": "*",
     "aws-sdk": "2.x",
     "create-react-class": "^15.5.2",
+    "mime-types": "^2.1.24",
     "object-assign": "^2.0.0",
     "prop-types": "^15.5.8",
     "typescript": "^3.7.5",

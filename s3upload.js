@@ -3,6 +3,8 @@
  * https://github.com/flyingsparx/NodeDirectUploader
  */
 
+var mime = require('mime-types');
+
 S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.signingUrlMethod = 'GET';
@@ -44,6 +46,10 @@ function S3Upload(options) {
     }
     var files = this.fileElement ? this.fileElement.files : this.files || [];
     this.handleFileSelect(files);
+}
+
+function getFileMimeType(file) {
+    return file.type || mime.lookup(file.name);
 }
 
 S3Upload.prototype.handleFileSelect = function(files) {
@@ -89,7 +95,7 @@ S3Upload.prototype._getErrorRequestContext = function (xhr) {
 
 S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     var fileName = this.scrubFilename(file.name);
-    var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(file.type);
+    var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(getFileMimeType(file));
     if (this.s3path) {
         queryString += '&path=' + encodeURIComponent(this.s3path);
     }
@@ -168,11 +174,14 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
             }
         }.bind(this);
     }
+
     var headers = {};
+    headers['content-type'] = getFileMimeType(file);
+  
     if (this.contentDisposition) {
         var disposition = this.contentDisposition;
         if (disposition === 'auto') {
-            if (file.type.substr(0, 6) === 'image/') {
+            if (getFileMimeType(file).substr(0, 6) === 'image/') {
                 disposition = 'inline';
             } else {
                 disposition = 'attachment';
@@ -181,9 +190,6 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
 
         var fileName = this.scrubFilename(file.name)
         headers['content-disposition'] = disposition + '; filename="' + fileName + '"';
-    }
-    if(file.type) {
-        headers['content-type'] = file.type;
     }
     if (!this.uploadRequestHeaders) {
         xhr.setRequestHeader('x-amz-acl', 'public-read');

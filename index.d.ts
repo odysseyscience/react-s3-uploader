@@ -35,7 +35,7 @@ declare module 'react-s3-uploader' {
     [key: string]: any;
   }
 
-  class ReactS3Uploader extends React.Component<ReactS3UploaderProps, any> { }
+  class ReactS3Uploader extends Component<ReactS3UploaderProps, unknown> { }
 
   export default ReactS3Uploader;
 }
@@ -43,9 +43,34 @@ declare module 'react-s3-uploader' {
 declare module 'react-s3-uploader/s3upload' {
   import { ReactS3UploaderProps, S3Response } from 'react-s3-uploader';
 
+  export interface S3UploadOptions extends Pick<
+    ReactS3UploaderProps,
+    | 'contentDisposition'
+    | 'getSignedUrl'
+    | 'onProgress'
+    | 'onError'
+    | 'onSignedUrl'
+    | 'preprocess'
+    | 's3path'
+    | 'server'
+    | 'signingUrl'
+    | 'signingUrlHeaders'
+    | 'signingUrlMethod'
+    | 'signingUrlQueryParams'
+    | 'signingUrlWithCredentials'
+    | 'uploadRequestHeaders'> {
+    fileElement?: HTMLInputElement | null;
+    files?: HTMLInputElement['files'] | null;
+    onFinishS3Put?: ReactS3UploaderProps['onFinish'];
+    successResponses?: number[];
+    scrubFilename?: (filename: string) => string;
+  }
+
   class S3Upload {
     constructor(options: ReactS3UploaderProps);
-    uploadFile: (file: File) => Promise<S3Response>;
+    abortUpload(): void;
+    uploadFile(file: File): Promise<S3Response>;
+    uploadToS3(file: File, signResult: S3Response): void;
   }
 
   export default S3Upload;

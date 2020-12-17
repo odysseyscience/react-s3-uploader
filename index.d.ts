@@ -35,7 +35,9 @@ declare module 'react-s3-uploader' {
     [key: string]: any;
   }
 
-  class ReactS3Uploader extends Component<ReactS3UploaderProps, unknown> { }
+  class ReactS3Uploader extends Component<ReactS3UploaderProps, unknown> {
+    uploadFile: () => void;
+  }
 
   export default ReactS3Uploader;
 }

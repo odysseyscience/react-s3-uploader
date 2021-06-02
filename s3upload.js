@@ -175,7 +175,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         }.bind(this);
     }
 
-    var fileType = getFileMimeType(file);
+    var fileType = getFileMimeType(file) || 'application/octet-stream';
     var headers = {
       'content-type': fileType
     };

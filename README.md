@@ -233,6 +233,54 @@ module.exports = (req, res) => {
 }
 ```
 
+#### PHP and WordPress
+```php
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+
+add_action('rest_api_init', function() {
+  register_rest_route('s3', '/sign', [
+    'methods'  => 'GET',
+    'callback' => 'handle_sign_url',
+    // 'permission_callback' => '__return_true' // enable this or use a WP nonce: https://stackoverflow.com/questions/47455745/wordpress-api-permission-callback-check-if-user-is-logged-in
+  ]);
+});
+
+function handle_sign_url ($req) {
+  // global $current_user;
+  // wp_get_current_user();
+
+  $file_name = $req['objectName'];
+  $content_type = $req['contentType'];
+
+  // $key = $current_user->user_login.'/'.$file_name;
+  $key = $file_name;
+
+  $s3Client = new Aws\S3\S3Client([
+    'region'      => 'us-east-1',
+    'version'     => '2006-03-01',
+    'credentials' => [
+      'key'    => '',
+      'secret' => ''
+    ]
+  ]);
+
+  $cmd = $s3Client->getCommand('PutObject', [
+    'Bucket'       => '',
+    'Key'          => $key,
+    'Content-Type' => $content_type
+  ]);
+
+  $request = $s3Client->createPresignedRequest($cmd, '+25 minutes');
+
+  $presignedUrl = (string)$request->getUri();
+
+  wp_send_json([
+    'signedUrl' => $presignedUrl
+  ]);
+}
+```
+
 
 ##### Other Servers
 

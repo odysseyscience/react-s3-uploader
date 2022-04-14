@@ -8,7 +8,7 @@ var mime = require('mime-types');
 S3Upload.prototype.server = '';
 S3Upload.prototype.signingUrl = '/sign-s3';
 S3Upload.prototype.signingUrlMethod = 'GET';
-S3Upload.prototype.successResponses = [200, 201];
+S3Upload.prototype.successResponses = [200, 201, 204];
 S3Upload.prototype.fileElement = null;
 S3Upload.prototype.files = null;
 
@@ -142,8 +142,70 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
     return xhr.send();
 };
 
+/**
+ * @summary Creates the submittable body sent to {@link XMLHttpRequest.send} to upload contents.
+ * @typedef {{
+ *   url: string,
+ *   fields: {
+ *     [key: string]: string,
+ *   },
+ * }} PresignedPostResult
+ * @param {File} file
+ * @param {PresignedPostResult | null} presignedPostResult
+ * @returns {File | FormData} Either the input {@link file}, or a {@link FormData}
+ * instance containing the fields from the {@link PresignedPostResult} and the original
+ * file.
+ */
+S3Upload.prototype.createS3Body = function(file, presignedPostResult) {
+    var fields = presignedPostResult && presignedPostResult.fields;
+    if (!fields) {
+        return file;
+    }
+
+    var formData = new FormData();
+    for (var key of Object.keys(fields)) {
+        var value = fields[key];
+        formData.append(key, value);
+    }
+    formData.append('file', file);
+    return formData;
+};
+
+/**
+ * @summary Creates the main {@link XMLHttpRequest} used to upload a file to S3.
+ * @typedef {string | PresignedPostResult} SignedUrl
+ * @param {SignedUrl} signedUrl Either the string or object containing the URL to submit to.
+ * @param {string} fileType The content type of the file to upload
+ */
+S3Upload.prototype.createS3Request = function(signedUrl, fileType) {
+    var method, url, contentType;
+    if (typeof signedUrl === 'string') {
+        method = 'PUT';
+        url = signedUrl;
+        contentType = fileType;
+    } else {
+        method = 'POST';
+        url = signedUrl.url;
+        // Presigned post doesn't send a content type.
+    }
+    var xhr = this.createCORSRequest(method, url);
+    if (contentType) {
+        xhr.setRequestHeader('content-type', contentType);
+    }
+    return xhr;
+};
+
+/**
+ * @summary Uploads a file to S3 using a signed URL.
+ * @typedef {{
+ *   signedUrl: SignedUrl,
+ * }} SignResult
+ * @param {File} file The file to upload.
+ * @param {SignResult} signResult The resulting object that contains the signed URL to upload to.
+ */
 S3Upload.prototype.uploadToS3 = function(file, signResult) {
-    var xhr = this.createCORSRequest('PUT', signResult.signedUrl);
+    var fileType = getFileMimeType(file);
+    var xhr = this.createS3Request(signResult.signedUrl, fileType);
     if (!xhr) {
         this.onError('CORS not supported', file, {});
     } else {
@@ -175,10 +237,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         }.bind(this);
     }
 
-    var fileType = getFileMimeType(file);
-    var headers = {
-      'content-type': fileType
-    };
+    var headers = { };
 
     if (this.contentDisposition) {
         var disposition = this.contentDisposition;
@@ -205,7 +264,8 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         xhr.setRequestHeader(pair[0], pair[1]);
     })
     this.httprequest = xhr;
-    return xhr.send(file);
+    var body = this.createS3Body(file, signResult.signedUrl);
+    return xhr.send(body);
 };
 
 S3Upload.prototype.uploadFile = function(file) {

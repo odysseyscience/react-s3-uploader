@@ -194,7 +194,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         headers['content-disposition'] = disposition + '; filename="' + fileName + '"';
     }
     if (!this.uploadRequestHeaders) {
-        xhr.setRequestHeader('x-amz-acl', 'public-read');
+        xhr.setRequestHeader('x-amz-acl', 'private');
     }
     [signResult.headers, this.uploadRequestHeaders].filter(Boolean).forEach(function (hdrs) {
         Object.entries(hdrs).forEach(function(pair) {

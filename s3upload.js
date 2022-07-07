@@ -179,6 +179,12 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
     var headers = {
       'content-type': fileType
     };
+    var urlQueryParams = {};
+    var regexp = new RegExp('(\\?|\\&)([^=]+)\\=([^&]+)', 'g');
+    var queryPair;
+    while ((queryPair = regexp.exec(signResult.signedUrl)) !== null) {
+        urlQueryParams[queryPair[2]] = queryPair[3];
+    }
 
     if (this.contentDisposition) {
         var disposition = this.contentDisposition;
@@ -193,8 +199,8 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
         var fileName = this.scrubFilename(file.name)
         headers['content-disposition'] = disposition + '; filename="' + fileName + '"';
     }
-    if (!this.uploadRequestHeaders) {
-        xhr.setRequestHeader('x-amz-acl', 'public-read');
+    if (!this.uploadRequestHeaders && !urlQueryParams.hasOwnProperty('x-amz-acl')) {
+        xhr.setRequestHeader('x-amz-acl', 'private');
     }
     [signResult.headers, this.uploadRequestHeaders].filter(Boolean).forEach(function (hdrs) {
         Object.entries(hdrs).forEach(function(pair) {
